@@ -10,7 +10,8 @@ import { BanqueModule } from './banque/banque.module';
 import { BeneficiaireModule } from './beneficiaire/beneficiaire.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { ImageModule } from './image/image.module';
+import { ImageModule } from './image/image.module'; 
+import { DashboardModule } from './dashboard/dashboard.module';
 
 
 @Module({
@@ -43,6 +44,7 @@ import { ImageModule } from './image/image.module';
     BeneficiaireModule,
     UsersModule,
     AuthModule,
+    DashboardModule,
   ],
   providers: [
     {
