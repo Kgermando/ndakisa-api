@@ -77,7 +77,6 @@ export class Beneficiaire {
     @Column()
     date_de_rembousement: Date; // Date de remboursement à la banque doit etre ajustable
 
-
     @ManyToOne(() => Cohorte, (item)=> item.beneficiaires, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     cohorte: Cohorte;
 
@@ -86,6 +85,12 @@ export class Beneficiaire {
 
     @Column({default: 'En attente'})  // En cours // Terminer
     statut: string;
+
+    @Column({default: '0'})
+    montant_payer: string; // Un montant à ajouter chaque mois
+    
+    @Column({default: '-'})
+    Observation: string;
 
     @Column()
     file_scan: string;

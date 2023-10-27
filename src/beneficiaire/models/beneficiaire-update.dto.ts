@@ -30,6 +30,8 @@ export class BeneficiaireUpdateDto {
     cohorte?: Cohorte;
     banque?: Banque;
     statut?: string;
+    montant_payer?: string; // Un montant à ajouter chaque mois
+    Observation?: string;
     file_scan?: string;
     signature?: string;
     created?: Date;    

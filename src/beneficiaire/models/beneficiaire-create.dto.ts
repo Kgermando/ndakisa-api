@@ -66,6 +66,10 @@ export class BeneficiaireCreateDto {
  
     statut: string;
 
+    montant_payer: string; // Un montant à ajouter chaque mois
+     
+    Observation: string;
+
     file_scan: string;
 
     @IsNotEmpty()
