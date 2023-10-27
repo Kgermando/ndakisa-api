@@ -19,6 +19,11 @@ export class UsersController {
         private authService: AuthService,
       ) {}
 
+    @Get('all')
+    async getAll() {
+      return this.userService.all();
+    }
+
     @Post()
         async create(@Body() body: UserCreateDto): Promise<User> {
         const password = await bcrypt.hash('1234', 12);
