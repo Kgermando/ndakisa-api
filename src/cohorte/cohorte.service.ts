@@ -12,6 +12,4 @@ export class CohorteService extends AbstractService {
     ) {
         super(dataRepository); 
     }
-
-    
 }
