@@ -13,4 +13,10 @@ export class UsersService extends AbstractService {
         super(dataRepository); 
     }
 
+    async findGetOne(condition): Promise<any> {
+        return await this.repository.findOne({
+            where: condition,
+        });
+    }
+
 }

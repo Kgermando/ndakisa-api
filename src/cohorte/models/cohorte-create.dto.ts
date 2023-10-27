@@ -1,21 +1,22 @@
 import { IsNotEmpty } from "class-validator";
+import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity";
 
 export class CohorteCreateDto { 
 
     @IsNotEmpty()
     name_cohorte: string;
 
-    // @IsNotEmpty()
+    @IsNotEmpty()
+    contrat_ref: string;
+
     effectif: string;
 
-    // @IsNotEmpty()
     statut: string;
 
     @IsNotEmpty()
-    identifiant: string;
-
-    @IsNotEmpty()
     montant_global: string;
+
+    beneficiaires: Beneficiaire[];
 
     @IsNotEmpty()
     signature: string;
@@ -24,5 +25,5 @@ export class CohorteCreateDto {
     created: Date;
 
     @IsNotEmpty()
-    update_created : Date;
+    update_created: Date;
 }

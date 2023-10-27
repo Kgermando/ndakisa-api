@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('banques')
 export class Banque {
@@ -17,6 +18,9 @@ export class Banque {
 
     @Column()
     adresse: string;
+
+    @OneToMany(() => Beneficiaire, (item) => item.cohorte, {cascade: true})
+    beneficiaires: Beneficiaire[];
     
     @Column()
     signature: string; // celui qui fait le document
@@ -25,5 +29,5 @@ export class Banque {
     created: Date;
 
     @Column()
-    update_created : Date;
+    update_created: Date;
 }

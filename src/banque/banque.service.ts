@@ -12,5 +12,14 @@ export class BanqueService extends AbstractService {
     ) {
         super(dataRepository); 
     }
+
+    async findGetOne(condition): Promise<any> {
+        return await this.repository.findOne({
+            where: condition,
+            relations: {
+                beneficiaires: true,
+            }
+        });
+    }
 }
 

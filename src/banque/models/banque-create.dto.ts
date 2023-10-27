@@ -1,4 +1,5 @@
 import { IsNotEmpty } from "class-validator";
+import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity";
 
 export class BanqueCreateDto { 
 
@@ -11,6 +12,8 @@ export class BanqueCreateDto {
  
     adresse: string;
 
+    beneficiaires: Beneficiaire[];
+
     @IsNotEmpty()
     signature: string;
 
@@ -18,5 +21,5 @@ export class BanqueCreateDto {
     created: Date;
 
     @IsNotEmpty()
-    update_created : Date;
+    update_created: Date;
 }
