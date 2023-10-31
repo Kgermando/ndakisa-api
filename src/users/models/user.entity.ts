@@ -35,6 +35,9 @@ export class User {
     @Column({unique : true})
     matricule: string;
 
+    @Column({default: '-'})
+    title: string;
+
     // Sécurité
     @Column({default: false})
     statut_user: boolean;

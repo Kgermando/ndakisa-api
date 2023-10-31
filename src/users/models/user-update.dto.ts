@@ -8,6 +8,7 @@ export class UserUpdateDto {
     adresse?: string;
     sexe?: string;
     matricule?: string; 
+    title?: string;
     statut_user?: boolean;
     roles?: string[];
     permission?: string;

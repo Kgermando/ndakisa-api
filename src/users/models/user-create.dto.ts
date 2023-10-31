@@ -29,6 +29,8 @@ export class UserCreateDto {
     @IsNotEmpty()
     matricule: string; 
 
+    title: string;
+
     statut_user: boolean;
 
     roles: string[];

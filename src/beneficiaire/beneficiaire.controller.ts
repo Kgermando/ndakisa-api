@@ -12,7 +12,7 @@ export class BeneficiaireController {
         private beneficiaireService: BeneficiaireService
     ) {}
 
-    @Get('all')
+    @Get('get-all')
     async getAll() {
       return this.beneficiaireService.all();
     }

@@ -19,7 +19,7 @@ export class UsersController {
         private authService: AuthService,
       ) {}
 
-    @Get('all')
+    @Get('get-all')
     async getAll() {
       return this.userService.all();
     }

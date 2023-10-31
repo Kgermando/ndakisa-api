@@ -12,7 +12,7 @@ export class CohorteController {
         private cohorteService: CohorteService
     ) {}
 
-    @Get('all')
+    @Get('get-all')
     async getAll() {
       return this.cohorteService.all();
     }
