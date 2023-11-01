@@ -11,10 +11,7 @@ export class Cohorte {
     name_cohorte: string;
 
     @Column()
-    contrat_ref: string;
-
-    @Column({default: '0'})
-    effectif: string;
+    contrat_ref: string; 
 
     @Column({default: 'Ouvert'})  // Ouvert et cloturer
     statut: string;
