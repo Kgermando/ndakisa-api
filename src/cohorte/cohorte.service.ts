@@ -13,11 +13,21 @@ export class CohorteService extends AbstractService {
         super(dataRepository); 
     }
 
+    async getAllData(): Promise<any> {
+        return await this.repository.find({
+            relations: {
+                beneficiaires: true,
+                remboursements: true
+            }
+        });
+    }
+
     async findGetOne(condition): Promise<any> {
         return await this.repository.findOne({
             where: condition,
             relations: {
                 beneficiaires: true,
+                remboursements: true
             }
         });
     }

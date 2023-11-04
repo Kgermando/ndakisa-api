@@ -12,6 +12,11 @@ export class BanqueController {
         private banqueService: BanqueService
     ) {}
 
+    @Get('get-all-nav')
+    async getAllData() {
+      return this.banqueService.getAllData();
+    }
+
     @Get('get-all')
     async getAll() {
       return this.banqueService.all();

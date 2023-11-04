@@ -12,6 +12,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ImageModule } from './image/image.module'; 
 import { DashboardModule } from './dashboard/dashboard.module';
+import { RemboursementModule } from './remboursement/remboursement.module';
+import { PlanRemboursementModule } from './plan_remboursement/plan_remboursement.module';
 
 
 @Module({
@@ -45,6 +47,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     UsersModule,
     AuthModule,
     DashboardModule,
+    RemboursementModule,
+    PlanRemboursementModule,
   ],
   providers: [
     {

@@ -12,9 +12,7 @@ export class CohorteCreateDto {
     statut: string;
 
     @IsNotEmpty()
-    montant_global: string;
-
-    beneficiaires: Beneficiaire[];
+    montant_global: string; 
 
     @IsNotEmpty()
     signature: string;

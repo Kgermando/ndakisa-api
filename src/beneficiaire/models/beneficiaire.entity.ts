@@ -1,6 +1,8 @@
 import { Banque } from "src/banque/models/banque.entity";
 import { Cohorte } from "src/cohorte/models/cohorte.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PlanRemboursement } from "src/plan_remboursement/models/plan_remboursement.entity";
+import { Remboursement } from "src/remboursement/models/remboursement.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('beneficiaires')
 export class Beneficiaire {
@@ -9,13 +11,22 @@ export class Beneficiaire {
     id: number; 
 
     @Column()
+    photo: string;
+
+    @Column()
     name_beneficiaire: string;
 
     @Column()
-    raison_sociale: string;
+    sexe: string;
 
-    @Column({default: '-'})
-    adresse: string;
+    @Column()
+    date_naissance: Date;
+
+    @Column()
+    province: string;
+
+    @Column()
+    identifiant: string;
 
     @Column()
     email: string;
@@ -24,16 +35,7 @@ export class Beneficiaire {
     telephone: string;
 
     @Column()
-    identifiant: string;
-
-    @Column()
-    province: string;
-
-    @Column()
-    sexe: string;
-
-    @Column()
-    age: string;
+    raison_sociale: string;
 
     @Column()
     secteur_activite: string;
@@ -47,7 +49,9 @@ export class Beneficiaire {
     @Column()
     rccm: string;
 
-
+    @Column({default: '-'})
+    adresse: string;
+ 
     // banque
 
     @Column({default: '0'})
@@ -62,20 +66,24 @@ export class Beneficiaire {
     @Column({default: '0'})
     montant_a_debourser: string;
 
-    @Column()
+    // Date
+    @Column({default: new Date()})
     delai_de_grace: Date;
 
-    @Column()
-    duree_credit: Date; // La durée de validité que le beneficiaire devra payé
+    @Column({default: new Date()})
+    delai_de_reajustement: Date;
 
-    @Column()
+    @Column({default: 0})
+    duree_credit: number; // La durée de validité que le beneficiaire devra payé
+
+    @Column({default: new Date()})
     date_valeur: Date; // Date à la quel on donné le credit
 
-    @Column()
+    @Column({default: new Date()})
     date_maturite: Date; // Date du dernier remboursement donc écheance 
-
-    @Column()
-    date_de_rembousement: Date; // Date de remboursement à la banque doit etre ajustable
+ 
+    @Column({default: 'En attente'})  // En cours // Terminer
+    statut: string;
 
     @ManyToOne(() => Cohorte, (item)=> item.beneficiaires, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     cohorte: Cohorte;
@@ -83,17 +91,11 @@ export class Beneficiaire {
     @ManyToOne(() => Banque, (item)=> item.beneficiaires, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     banque: Banque;
 
-    @Column({default: 'En attente'})  // En cours // Terminer
-    statut: string;
+    @OneToMany(() => Remboursement, (item) => item.beneficiaire, {cascade: true})
+    remboursements: Remboursement[];
 
-    @Column({default: '0'})
-    montant_payer: string; // Un montant à ajouter chaque mois
-    
-    @Column({default: '-'})
-    Observation: string;
-
-    @Column()
-    file_scan: string;
+    @OneToMany(() => PlanRemboursement, (item) => item.beneficiaire, {cascade: true})
+    plan_remboursements: PlanRemboursement[];
     
     @Column()
     signature: string; // Celui qui fait le document

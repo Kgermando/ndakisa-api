@@ -1,4 +1,5 @@
-import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity";
+import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity"; 
+import { Remboursement } from "src/remboursement/models/remboursement.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('cohortes')
@@ -21,6 +22,9 @@ export class Cohorte {
 
     @OneToMany(() => Beneficiaire, (item) => item.cohorte, {cascade: true})
     beneficiaires: Beneficiaire[];
+
+    @OneToMany(() => Remboursement, (item) => item.cohorte, {cascade: true})
+    remboursements: Remboursement[];
 
     @Column()
     signature: string; // celui qui fait le document

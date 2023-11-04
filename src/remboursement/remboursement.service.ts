@@ -2,34 +2,32 @@ import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { AbstractService } from 'src/common/abstract.service';
 import { DataSource, Repository } from 'typeorm';
-import { Banque } from './models/banque.entity';
+import { Remboursement } from './models/remboursement.entity';
 
 @Injectable()
-export class BanqueService extends AbstractService {
+export class RemboursementService  extends AbstractService {
     constructor(
-        @InjectRepository(Banque) private readonly  dataRepository: Repository<Banque>,
+        @InjectRepository(Remboursement) private readonly  dataRepository: Repository<Remboursement>,
         @InjectDataSource() private dataSource: DataSource,
     ) {
         super(dataRepository); 
     }
 
-    async getAllData(): Promise<any> {
-        return await this.repository.find({
-            relations: {
-                beneficiaires: true,
-                remboursements: true
-            }
-        });
-    }
+    findGetAll(id): Promise<any[]> {
+        return this.dataSource.query(`
+            SELECT *
+            FROM remboursements 
+            WHERE "beneficiaireId"='${id}' ORDER BY created ASC;
+        `);
+    } 
 
     async findGetOne(condition): Promise<any> {
         return await this.repository.findOne({
             where: condition,
             relations: {
-                beneficiaires: true,
-                remboursements: true
+                cohorte: true,
+                banque: true,
             }
         });
     }
 }
-

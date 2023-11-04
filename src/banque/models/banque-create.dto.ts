@@ -5,14 +5,6 @@ export class BanqueCreateDto {
 
     @IsNotEmpty()
     name_banque: string;
- 
-    email: string;
- 
-    telephone: string;
- 
-    adresse: string;
-
-    beneficiaires: Beneficiaire[];
 
     @IsNotEmpty()
     signature: string;

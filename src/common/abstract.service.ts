@@ -10,7 +10,7 @@ export abstract class AbstractService {
    ) {}
 
 
-   all(): Promise<any[]> {
+    all(): Promise<any[]> {
         return this.repository.find({order: {'created': 'DESC'}}); 
     }
 
