@@ -14,7 +14,7 @@ export class BeneficiaireController {
 
     @Get('get-all')
     async getAll() {
-      return this.beneficiaireService.all();
+      return this.beneficiaireService.findGetAll();
     }
 
     @Post()

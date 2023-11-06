@@ -21,9 +21,11 @@ export class PlanRemboursementService extends AbstractService {
         `);
     }
 
+    
+
     // async findGetAll(): Promise<any> {
     //     return await this.repository.find({
-    //         order: {'created': 'ASC'},
+    //         order: {created: 'ASC'},
     //         relations: {
     //             beneficiaire: true, 
     //         } 

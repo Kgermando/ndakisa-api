@@ -19,6 +19,13 @@ export class RemboursementController {
       return this.remboursementService.findGetAll(id);
     }
 
+    @Get('get-all-banque/:id')
+    async findGetAllBanque(
+        @Param('id') id: number,
+    ) {
+      return this.remboursementService.findGetAllBanque(id);
+    }
+
     @Post()
     async create(
         @Body() body: RemboursementCreateDto

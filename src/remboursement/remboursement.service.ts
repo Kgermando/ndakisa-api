@@ -21,6 +21,14 @@ export class RemboursementService  extends AbstractService {
         `);
     } 
 
+    findGetAllBanque(id): Promise<any[]> {
+        return this.dataSource.query(`
+            SELECT *
+            FROM remboursements 
+            WHERE "banqueId"='${id}' ORDER BY created ASC;
+        `);
+    }
+
     async findGetOne(condition): Promise<any> {
         return await this.repository.findOne({
             where: condition,

@@ -13,6 +13,14 @@ export class BeneficiaireService extends AbstractService {
         super(dataRepository); 
     }
 
+    async findGetAll(): Promise<any[]> {
+        return await this.repository.find({
+            relations: { 
+                remboursements: true, 
+            } 
+        });
+    }
+
     async findGetOne(condition): Promise<any> {
         return await this.repository.findOne({
             where: condition,
@@ -21,7 +29,7 @@ export class BeneficiaireService extends AbstractService {
                 banque: true,
                 remboursements: true,
                 plan_remboursements: true,
-            }
+            } 
         });
     }
 
