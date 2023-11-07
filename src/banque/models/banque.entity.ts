@@ -1,5 +1,5 @@
 import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity";
-import { Remboursement } from "src/remboursement/models/remboursement.entity";
+import { PlanRemboursement } from "src/plan_remboursement/models/plan_remboursement.entity"; 
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('banques')
@@ -14,8 +14,8 @@ export class Banque {
     @OneToMany(() => Beneficiaire, (item) => item.banque, {cascade: true})
     beneficiaires: Beneficiaire[];
 
-    @OneToMany(() => Remboursement, (item) => item.banque, {cascade: true})
-    remboursements: Remboursement[];
+    @OneToMany(() => PlanRemboursement, (item) => item.banque, {cascade: true})
+    plan_remboursements: PlanRemboursement[];
     
     @Column()
     signature: string; // celui qui fait le document

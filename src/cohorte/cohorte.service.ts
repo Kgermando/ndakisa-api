@@ -17,7 +17,7 @@ export class CohorteService extends AbstractService {
         return await this.repository.find({
             relations: {
                 beneficiaires: true,
-                remboursements: true
+                plan_remboursements: true
             }
         });
     }
@@ -27,7 +27,7 @@ export class CohorteService extends AbstractService {
             where: condition,
             relations: {
                 beneficiaires: true,
-                remboursements: true
+                plan_remboursements: true
             }
         });
     }

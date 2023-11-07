@@ -1,4 +1,3 @@
-import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity";
 
 export class BanqueUpdateDto {
     name_banque?: string;

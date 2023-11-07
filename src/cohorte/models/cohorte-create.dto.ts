@@ -1,6 +1,5 @@
 import { IsNotEmpty } from "class-validator";
-import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity";
-
+ 
 export class CohorteCreateDto { 
 
     @IsNotEmpty()

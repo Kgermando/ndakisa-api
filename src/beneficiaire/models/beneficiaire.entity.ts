@@ -1,7 +1,6 @@
 import { Banque } from "src/banque/models/banque.entity";
 import { Cohorte } from "src/cohorte/models/cohorte.entity";
-import { PlanRemboursement } from "src/plan_remboursement/models/plan_remboursement.entity";
-import { Remboursement } from "src/remboursement/models/remboursement.entity";
+import { PlanRemboursement } from "src/plan_remboursement/models/plan_remboursement.entity"; 
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('beneficiaires')
@@ -89,10 +88,7 @@ export class Beneficiaire {
     cohorte: Cohorte;
 
     @ManyToOne(() => Banque, (item)=> item.beneficiaires, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
-    banque: Banque;
-
-    @OneToMany(() => Remboursement, (item) => item.beneficiaire, {cascade: true})
-    remboursements: Remboursement[];
+    banque: Banque; 
 
     @OneToMany(() => PlanRemboursement, (item) => item.beneficiaire, {cascade: true})
     plan_remboursements: PlanRemboursement[];

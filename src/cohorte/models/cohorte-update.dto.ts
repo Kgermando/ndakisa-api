@@ -1,4 +1,3 @@
-import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity";
 
 export class CohorteUpdateDto {
     name_cohorte?: string; 

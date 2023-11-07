@@ -11,8 +11,7 @@ import { BeneficiaireModule } from './beneficiaire/beneficiaire.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ImageModule } from './image/image.module'; 
-import { DashboardModule } from './dashboard/dashboard.module';
-import { RemboursementModule } from './remboursement/remboursement.module';
+import { DashboardModule } from './dashboard/dashboard.module'; 
 import { PlanRemboursementModule } from './plan_remboursement/plan_remboursement.module';
 
 
@@ -47,7 +46,6 @@ import { PlanRemboursementModule } from './plan_remboursement/plan_remboursement
     UsersModule,
     AuthModule,
     DashboardModule,
-    RemboursementModule,
     PlanRemboursementModule,
   ],
   providers: [
