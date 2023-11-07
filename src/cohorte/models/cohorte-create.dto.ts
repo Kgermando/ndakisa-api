@@ -10,8 +10,8 @@ export class CohorteCreateDto {
 
     statut: string;
 
-    @IsNotEmpty()
-    montant_global: string; 
+    // @IsNotEmpty()
+    // montant_global: string; 
 
     @IsNotEmpty()
     signature: string;

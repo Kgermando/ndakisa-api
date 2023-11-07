@@ -24,8 +24,8 @@ export class PlanRemboursement {
     @Column()
     credit_en_debut_periode: string;
 
-    @Column({default: '0'})
-    mensualite: string;
+    // @Column({default: '0'})
+    // mensualite: string;
 
     @Column({default: '0'})
     interet: string;
@@ -36,7 +36,7 @@ export class PlanRemboursement {
     @Column({default: '0'})
     montant_payer: string; // Un montant à ajouter chaque mois
     
-    @Column({default: new Date()})
+    @Column({nullable: true})
     date_paiement: Date;
     
     @Column({default: '-'})

@@ -20,8 +20,8 @@ export class PlanRemboursementCreateDto {
     @IsNotEmpty()
     credit_en_debut_periode: string;
 
-    @IsNotEmpty()
-    mensualite: string;
+    // @IsNotEmpty()
+    // mensualite: string;
     
     interet: string;
 
