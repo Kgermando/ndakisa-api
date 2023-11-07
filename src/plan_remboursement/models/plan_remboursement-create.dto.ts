@@ -27,13 +27,10 @@ export class PlanRemboursementCreateDto {
 
     capital: string;  
 
-    @IsNotEmpty()
     montant_payer: string; // Un montant à ajouter chaque mois
      
-    @IsNotEmpty()
     observation: string;
 
-    @IsNotEmpty()
     date_paiement: Date; 
 
     file_scan: string;

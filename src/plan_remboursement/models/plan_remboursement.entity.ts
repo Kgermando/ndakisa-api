@@ -42,7 +42,7 @@ export class PlanRemboursement {
     @Column({default: '-'})
     observation: string;
 
-    @Column()
+    @Column({default: '-'})
     file_scan: string;
 
     @Column()

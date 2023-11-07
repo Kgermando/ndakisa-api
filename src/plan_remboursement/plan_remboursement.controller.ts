@@ -7,7 +7,7 @@ import { PlanRemboursementUpdateDto } from './models/plan_remboursement-update.d
 
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard)
-@Controller('planremboursements')
+@Controller('plan_remboursements')
 export class PlanRemboursementController {
     constructor(
         private planRemboursementService: PlanRemboursementService
