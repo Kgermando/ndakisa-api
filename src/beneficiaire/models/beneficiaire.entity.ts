@@ -63,7 +63,7 @@ export class Beneficiaire {
     interet: string;
 
     @Column({default: '0'})
-    montant_a_debourser: string;
+    montant_a_debourser: string; // Montant à rembourser
 
     // Date
     @Column({default: new Date()})
@@ -81,7 +81,7 @@ export class Beneficiaire {
     @Column({default: new Date()})
     date_maturite: Date; // Date du dernier remboursement donc écheance 
  
-    @Column({default: 'En attente'})  // En cours // Terminer
+    @Column({default: 'En cours'})  // En cours // Terminer
     statut: string;
 
     @ManyToOne(() => Cohorte, (item)=> item.beneficiaires, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
