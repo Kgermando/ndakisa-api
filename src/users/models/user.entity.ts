@@ -1,5 +1,6 @@
 import { Exclude } from "class-transformer";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { LogUser } from "src/log/models/log.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
 export class User {
@@ -47,6 +48,9 @@ export class User {
     
     @Column({nullable: true})
     permission: string;  // Give access to CRUD  [Create, Read, Update, Delete] C R U D
+
+    @OneToMany(() => LogUser, (item) => item.user, {cascade: true})
+    logs: LogUser[];
 
     @Column()
     @Exclude()

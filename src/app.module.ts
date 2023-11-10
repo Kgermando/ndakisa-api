@@ -13,6 +13,8 @@ import { AuthModule } from './auth/auth.module';
 import { ImageModule } from './image/image.module'; 
 import { DashboardModule } from './dashboard/dashboard.module'; 
 import { PlanRemboursementModule } from './plan_remboursement/plan_remboursement.module';
+import { LogModule } from './log/log.module';
+import { SecteursModule } from './secteurs/secteurs.module';
 
 
 @Module({
@@ -47,6 +49,8 @@ import { PlanRemboursementModule } from './plan_remboursement/plan_remboursement
     AuthModule,
     DashboardModule,
     PlanRemboursementModule,
+    LogModule,
+    SecteursModule,
   ],
   providers: [
     {
