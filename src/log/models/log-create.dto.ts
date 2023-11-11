@@ -7,10 +7,19 @@ export class LogCreateDto {
     user: User;
 
     @IsNotEmpty()
+    date_operation: Date; 
+
+    @IsNotEmpty()
     type_operation: string;
 
     @IsNotEmpty()
-    date_operation: Date; 
+    module: string;
+
+    @IsNotEmpty()
+    title: string;
+
+    @IsNotEmpty()
+    observation: string;
 
     @IsNotEmpty()
     signature: string;

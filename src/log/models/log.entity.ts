@@ -10,11 +10,20 @@ export class LogUser {
     user: User;
 
     @Column()
-    type_operation: string;
+    date_operation: Date;
 
     @Column()
-    date_operation: Date;
- 
+    type_operation: string; // Create, Update, Delete
+
+    @Column()
+    module: string; // Beneficiaire, Cohorte, Banque, Utilisateurs
+
+    @Column()
+    title: string;  // Titre de l'objet
+
+    @Column()
+    observation: string; // Mise en corbeil
+    
     @Column()
     signature: string; // celui qui fait le document
 

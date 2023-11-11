@@ -6,12 +6,11 @@ import { LogUpdateDto } from './models/log-update.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard)
-
 @Controller('logs')
 export class LogController {
     constructor(
         private logService: LogService
-    ) {} 
+    ) {}
 
     @Get('get-all')
     async getAll() {
