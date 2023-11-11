@@ -258,6 +258,19 @@ export class DashboardService {
             GROUP BY "statut";
         `);
     }
+
+    async secteurActivite(start_date, end_date) {
+        return this.dataSource.query(`
+            SELECT COALESCE("secteur_activite", LEFT('Pas de statut', 40)) AS name_secteur, COUNT(*)
+            FROM beneficiaires 
+            WHERE
+            created
+            BETWEEN
+            '${start_date}' ::TIMESTAMP AND
+            '${end_date}' ::TIMESTAMP
+            GROUP BY "secteur_activite";
+        `);
+    }
  
 
 }

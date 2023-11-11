@@ -1,13 +1,12 @@
 import { Banque } from "src/banque/models/banque.entity";
 import { Cohorte } from "src/cohorte/models/cohorte.entity";
-import { PlanRemboursement } from "src/plan_remboursement/models/plan_remboursement.entity"; 
+import { PlanRemboursement } from "src/plan_remboursement/models/plan_remboursement.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('beneficiaires')
 export class Beneficiaire {
-
     @PrimaryGeneratedColumn()
-    id: number; 
+    id: number;
 
     @Column()
     photo: string;
@@ -49,10 +48,12 @@ export class Beneficiaire {
     rccm: string;
 
     @Column({default: '-'})
+    compte_bancaire: string;
+
+    @Column({default: '-'})
     adresse: string;
  
     // banque
-
     @Column({default: '0'})
     montant_garantie: string;
 

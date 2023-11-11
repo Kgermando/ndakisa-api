@@ -38,6 +38,8 @@ export class BeneficiaireCreateDto {
  
     rccm: string;
 
+    compte_bancaire: string;
+
     @IsNotEmpty()
     adresse: string;
  

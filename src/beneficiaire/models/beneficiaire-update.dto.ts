@@ -15,7 +15,8 @@ export class BeneficiaireUpdateDto {
     numero_impot?: string;
     id_nat?: string;
     rccm?: string;
-    adresse?: string; 
+    compte_bancaire?: string;
+    adresse?: string;
     
     // banque
     montant_garantie?: string;

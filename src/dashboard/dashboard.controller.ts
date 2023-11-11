@@ -146,6 +146,14 @@ export class DashboardController {
     return this.dashboardService.progressionRemboursementSexeDate(start_date, end_date);
   }
 
+  @Get('secteurs-activites/:start_date/:end_date')
+  async secteurActivite(
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string
+  ) {
+    return this.dashboardService.secteurActivite(start_date, end_date);
+  }
+
 
 
  
