@@ -6,6 +6,9 @@ export class SecteurCreateDto {
     name_secteur: string; 
 
     @IsNotEmpty()
+    statut: boolean;
+
+    @IsNotEmpty()
     signature: string;
 
     @IsNotEmpty()

@@ -14,7 +14,7 @@ export class Cohorte {
     @Column()
     contrat_ref: string; 
 
-    @Column({default: 'Ouvert'})  // Ouvert et cloturer
+    @Column({default: 'Ouverte'})  // Ouverte et Fermée
     statut: string;
 
     // @Column({default: '0'})

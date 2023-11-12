@@ -11,11 +11,24 @@ export class SecteursService extends AbstractService {
         @InjectDataSource() private dataSource: DataSource,
     ) {
         super(dataRepository); 
-    }
+    } 
+
+
+    // async findGetAll(): Promise<any> {
+    //     return await this.repository.find({
+    //         order: {created: 'ASC'},
+    //         relations: {
+    //             beneficiaires: true, 
+    //         } 
+    //     });
+    // }
 
     async findGetOne(condition): Promise<any> {
         return await this.repository.findOne({
             where: condition,
+            relations: {
+                beneficiaires: true,
+            }
         });
     }
 

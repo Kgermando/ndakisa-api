@@ -28,6 +28,7 @@ export class BeneficiaireService extends AbstractService {
                 cohorte: true,
                 banque: true, 
                 plan_remboursements: true,
+                secteur_activite: true,
             } 
         });
     }
