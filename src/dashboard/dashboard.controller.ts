@@ -8,29 +8,44 @@ export class DashboardController {
       private dashboardService: DashboardService
   ) {}
 
-  @Get('beneficiaires')
-  async totalBeneficiaire() {
-    return this.dashboardService.totalBeneficiaire();
+  @Get('beneficiaires/:start_date/:end_date')
+  async totalBeneficiaire(
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string
+  ) {
+    return this.dashboardService.totalBeneficiaire(start_date, end_date);
   }
   
-  @Get('cohortes')
-  async totalCohorte() {
-    return this.dashboardService.totalCohorte();
+  @Get('cohortes/:start_date/:end_date')
+  async totalCohorte(
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string
+  ) {
+    return this.dashboardService.totalCohorte(start_date, end_date);
   }
 
-  @Get('banques')
-  async totalBanque() {
-    return this.dashboardService.totalBanque();
+  @Get('banques/:start_date/:end_date')
+  async totalBanque(
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string
+  ) {
+    return this.dashboardService.totalBanque(start_date, end_date);
   }
 
-  @Get('sexe')
-  async sexe() {
-    return this.dashboardService.sexe();
+  @Get('sexe/:start_date/:end_date')
+  async sexe(
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string
+  ) {
+    return this.dashboardService.sexe(start_date, end_date);
   }
 
-  @Get('age')
-  async ageBeneficiaires() {
-    return this.dashboardService.ageBeneficiaires();
+  @Get('age/:start_date/:end_date')
+  async ageBeneficiaires(
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string
+  ) {
+    return this.dashboardService.ageBeneficiaires(start_date, end_date);
   }
 
 

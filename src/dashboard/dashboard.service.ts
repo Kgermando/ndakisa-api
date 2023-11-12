@@ -9,31 +9,44 @@ export class DashboardService {
     ) { 
     }
 
-    async totalBeneficiaire() {
+    async totalBeneficiaire(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT count(*) as total FROM beneficiaires;
+            SELECT count(*) as total FROM beneficiaires 
+            WHERE created BETWEEN
+            '${start_date}' ::TIMESTAMP AND
+            '${end_date}' ::TIMESTAMP;
         `);
     }
 
-    async totalCohorte() {
+    async totalCohorte(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT count(*) as total FROM cohortes;
+            SELECT count(*) as total FROM cohortes 
+            WHERE created BETWEEN
+            '${start_date}' ::TIMESTAMP AND
+            '${end_date}' ::TIMESTAMP;
         `);
     }
 
-    async totalBanque() {
+    async totalBanque(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT count(*) as total FROM banques;
+            SELECT count(*) as total FROM banques 
+            WHERE created BETWEEN
+            '${start_date}' ::TIMESTAMP AND
+            '${end_date}' ::TIMESTAMP;
         `);
     }
 
-    async sexe() {
+    async sexe(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT sexe, COUNT(sexe) FROM beneficiaires GROUP BY sexe;
+            SELECT sexe, COUNT(sexe) FROM beneficiaires 
+            WHERE created BETWEEN
+            '${start_date}' ::TIMESTAMP AND
+            '${end_date}' ::TIMESTAMP
+            GROUP BY sexe;
         `);
     }
 
-    async ageBeneficiaires() {
+    async ageBeneficiaires(start_date, end_date) {
         return this.dataSource.query(`
             SELECT
                 COUNT(case when date_part('year', age(date_naissance))>=18 AND date_part('year', age(date_naissance))<=25 then 1 end) as "De 18-25 ans",
@@ -41,7 +54,10 @@ export class DashboardService {
                 COUNT(case when date_part('year', age(date_naissance))>35 AND date_part('year', age(date_naissance))<=45 then 1 end) as "De 35-45 ans",
                 COUNT(case when date_part('year', age(date_naissance))>45 AND date_part('year', age(date_naissance))<=55 then 1 end) as "De 45-55 ans", 
                 COUNT(case when date_part('year', age(date_naissance))>55 AND date_part('year', age(date_naissance))<=65 then 1 end) as "De 55-65 ans"
-                FROM beneficiaires;
+                FROM beneficiaires 
+                WHERE created BETWEEN
+                '${start_date}' ::TIMESTAMP AND
+                '${end_date}' ::TIMESTAMP;
         `);
     }
 
