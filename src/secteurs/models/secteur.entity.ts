@@ -10,6 +10,9 @@ export class Secteur {
     @Column()
     name_secteur: string; 
 
+    @Column({default: true})
+    statut: boolean;  // True => le secteur est activé AND False => le secteur est bloqué
+
     @OneToMany(() => Beneficiaire, (item) => item.secteur_activite, {cascade: true})
     beneficiaires: Beneficiaire[];
  
