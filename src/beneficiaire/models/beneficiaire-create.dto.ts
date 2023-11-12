@@ -1,6 +1,7 @@
 import { IsNotEmpty } from "class-validator";
 import { Banque } from "src/banque/models/banque.entity"; 
 import { Cohorte } from "src/cohorte/models/cohorte.entity";
+import { Secteur } from "src/secteurs/models/secteur.entity";
 
 export class BeneficiaireCreateDto { 
 
@@ -30,7 +31,7 @@ export class BeneficiaireCreateDto {
     raison_sociale: string;
 
     @IsNotEmpty()
-    secteur_activite: string;
+    secteur_activite: Secteur;
 
     numero_impot: string;
 

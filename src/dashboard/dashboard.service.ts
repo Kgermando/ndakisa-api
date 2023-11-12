@@ -261,14 +261,15 @@ export class DashboardService {
 
     async secteurActivite(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT COALESCE("secteur_activite", LEFT('Pas de statut', 40)) AS name_secteur, COUNT(*)
-            FROM beneficiaires 
+            SELECT COALESCE("name_secteur", LEFT('Pas de secteur', 40)) AS name_secteur, COUNT(*)
+            FROM beneficiaires
+            LEFT JOIN "secteurs" ON "secteurs"."id" = "beneficiaires"."secteurActiviteId"
             WHERE
-            created
+            "beneficiaires"."created"
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
             '${end_date}' ::TIMESTAMP
-            GROUP BY "secteur_activite";
+            GROUP BY "name_secteur";
         `);
     }
  

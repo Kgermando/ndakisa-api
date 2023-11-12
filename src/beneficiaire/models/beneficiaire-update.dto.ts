@@ -1,5 +1,6 @@
 import { Banque } from "src/banque/models/banque.entity"; 
 import { Cohorte } from "src/cohorte/models/cohorte.entity";
+import { Secteur } from "src/secteurs/models/secteur.entity";
 
 export class BeneficiaireUpdateDto { 
     photo?: string;
@@ -11,7 +12,7 @@ export class BeneficiaireUpdateDto {
     email?: string;
     telephone?: string;
     raison_sociale?: string;
-    secteur_activite?: string;
+    secteur_activite?: Secteur;
     numero_impot?: string;
     id_nat?: string;
     rccm?: string;

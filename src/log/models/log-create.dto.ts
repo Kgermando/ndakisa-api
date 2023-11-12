@@ -21,12 +21,12 @@ export class LogCreateDto {
     @IsNotEmpty()
     observation: string;
 
-    @IsNotEmpty()
-    signature: string;
+    // @IsNotEmpty()
+    // signature: string;
 
-    @IsNotEmpty()
-    created: Date;
+    // @IsNotEmpty()
+    // created: Date;
 
-    @IsNotEmpty()
-    update_created : Date;
+    // @IsNotEmpty()
+    // update_created : Date;
 }

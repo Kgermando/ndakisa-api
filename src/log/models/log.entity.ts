@@ -24,12 +24,12 @@ export class LogUser {
     @Column()
     observation: string; // Mise en corbeil
     
-    @Column()
-    signature: string; // celui qui fait le document
+    // @Column()
+    // signature: string; // Le user contient déjà les elements de la signature
 
-    @Column()
-    created: Date;
+    // @Column()
+    // created: Date;
 
-    @Column()
-    update_created : Date;
+    // @Column()
+    // update_created : Date;
 }

@@ -7,7 +7,7 @@ export class LogUpdateDto {
     module?: string;
     title?: string;
     observation?: string;
-    signature?: string;
-    created?: Date;
-    update_created?: Date;
+    // signature?: string;
+    // created?: Date;
+    // update_created?: Date;
 }

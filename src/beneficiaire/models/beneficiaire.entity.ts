@@ -1,6 +1,7 @@
 import { Banque } from "src/banque/models/banque.entity";
 import { Cohorte } from "src/cohorte/models/cohorte.entity";
 import { PlanRemboursement } from "src/plan_remboursement/models/plan_remboursement.entity";
+import { Secteur } from "src/secteurs/models/secteur.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('beneficiaires')
@@ -35,8 +36,8 @@ export class Beneficiaire {
     @Column()
     raison_sociale: string;
 
-    @Column()
-    secteur_activite: string;
+    @ManyToOne(() => Secteur, (item)=> item.beneficiaires, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    secteur_activite: Secteur;  
 
     @Column()
     numero_impot: string;
@@ -92,7 +93,8 @@ export class Beneficiaire {
     banque: Banque; 
 
     @OneToMany(() => PlanRemboursement, (item) => item.beneficiaire, {cascade: true})
-    plan_remboursements: PlanRemboursement[];
+    plan_remboursements: PlanRemboursement[]; 
+
     
     @Column()
     signature: string; // Celui qui fait le document
