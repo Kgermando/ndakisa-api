@@ -15,6 +15,7 @@ export class CohorteService extends AbstractService {
 
     async getAllData(): Promise<any> {
         return await this.repository.find({
+            order: {created: 'DESC'},
             relations: {
                 beneficiaires: true,
                 plan_remboursements: true
