@@ -25,8 +25,7 @@ export class BeneficiaireUpdateDto {
     interet?: string;
     montant_a_debourser?: string;
 
-    delai_de_grace?: Date;
-    delai_de_reajustement?: Date;
+    delai_de_grace?: number; 
     duree_credit?: number; // La durée de validité que le beneficiaire devra payé
     date_valeur?: Date; // Date à la quel on donné le credit
     date_maturite?: Date; // Date du dernier remboursement donc écheance 

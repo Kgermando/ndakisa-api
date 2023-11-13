@@ -17,11 +17,10 @@ export class PlanRemboursementCreateDto {
     @IsNotEmpty()
     date_de_rembousement: Date;
 
-    @IsNotEmpty()
-    credit_en_debut_periode: string;
+    delai_reajustement: number;
 
-    // @IsNotEmpty()
-    // mensualite: string;
+    @IsNotEmpty()
+    credit_en_debut_periode: string; 
     
     interet: string;
 

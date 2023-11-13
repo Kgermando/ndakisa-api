@@ -53,9 +53,7 @@ export class BeneficiaireCreateDto {
  
     montant_a_debourser: string;
  
-    delai_de_grace: Date;
-
-    delai_de_reajustement: Date;
+    delai_de_grace: number;
  
     duree_credit: number; // La durée de validité que le beneficiaire devra payé
 

@@ -7,8 +7,8 @@ export class PlanRemboursementUpdateDto {
     banque?: Banque;
     beneficiaire?: Beneficiaire;
     date_de_rembousement?: Date;
-    credit_en_debut_periode?: string;
-    // mensualite?: Date;
+    delai_reajustement?: number;
+    credit_en_debut_periode?: string; 
     interet?: string;
     capital?: string;
     montant_payer?: string; // Un montant à ajouter chaque mois

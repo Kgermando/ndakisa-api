@@ -21,11 +21,11 @@ export class PlanRemboursement {
     @Column({default: new Date()})
     date_de_rembousement: Date; // Date de remboursement à la banque doit etre ajustable
 
+    @Column({default: '0'})
+    delai_reajustement: number;
+
     @Column()
     credit_en_debut_periode: string;
-
-    // @Column({default: '0'})
-    // mensualite: string;
 
     @Column({default: '0'})
     interet: string;

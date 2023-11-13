@@ -68,11 +68,8 @@ export class Beneficiaire {
     montant_a_debourser: string; // Montant à rembourser
 
     // Date
-    @Column({default: new Date()})
-    delai_de_grace: Date;
-
-    @Column({default: new Date()})
-    delai_de_reajustement: Date;
+    @Column({default: '0'})
+    delai_de_grace: number; 
 
     @Column({default: 0})
     duree_credit: number; // La durée de validité que le beneficiaire devra payé
