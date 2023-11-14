@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common'; 
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, UseInterceptors } from '@nestjs/common'; 
 import { AuthGuard } from 'src/auth/auth.guard'; 
 import { LogService } from './log.service';
 import { LogCreateDto } from './models/log-create.dto';
@@ -12,9 +12,9 @@ export class LogController {
         private logService: LogService
     ) {}
 
-    @Get('get-all')
-    async allGetLog() {
-      return this.logService.allGetLog();
+    @Get()
+    async all(@Query('page') page = 1) {
+        return this.logService.paginate(page);
     }
 
     @Post()
