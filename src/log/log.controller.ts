@@ -13,8 +13,8 @@ export class LogController {
     ) {}
 
     @Get('get-all')
-    async getAll() {
-      return this.logService.all();
+    async allGetLog() {
+      return this.logService.allGetLog();
     }
 
     @Post()
@@ -33,9 +33,8 @@ export class LogController {
     async update(
         @Param('id') id: number,
         @Body() body: LogUpdateDto
-    ) {
-        const update_created = new Date();
-        await this.logService.update(id, {...body, update_created}); 
+    ) { 
+        await this.logService.update(id,body); 
         return this.logService.findOne({where: {id}});
     }
 

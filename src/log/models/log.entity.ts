@@ -23,13 +23,4 @@ export class LogUser {
 
     @Column()
     observation: string; // Mise en corbeil
-    
-    // @Column()
-    // signature: string; // Le user contient déjà les elements de la signature
-
-    // @Column()
-    // created: Date;
-
-    // @Column()
-    // update_created : Date;
 }

@@ -13,6 +13,10 @@ export class LogService extends AbstractService {
         super(dataRepository); 
     }
 
+    allGetLog(): Promise<any[]> {
+        return this.repository.find({order: {'date_operation': 'DESC'}}); 
+    }
+
     async findGetOne(condition): Promise<any> {
         return await this.repository.findOne({
             where: condition,
