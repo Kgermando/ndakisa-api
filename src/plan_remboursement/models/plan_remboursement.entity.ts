@@ -39,10 +39,10 @@ export class PlanRemboursement {
     @Column({nullable: true})
     date_paiement: Date;
     
-    @Column({default: '-'})
+    @Column({default: 'RAS'})
     observation: string;
 
-    @Column({default: '-'})
+    @Column({nullable: true})
     file_scan: string;
 
     @Column()
