@@ -1,8 +1,11 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common'; 
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get,
+    Param, Post, Put, Res, UseGuards, UseInterceptors } from '@nestjs/common'; 
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CohorteService } from './cohorte.service';
 import { CohorteCreateDto } from './models/cohorte-create.dto';
 import { CohorteUpdateDto } from './models/cohorte-update.dto';
+import type { Response } from 'express';
+
 
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard)
@@ -20,6 +23,17 @@ export class CohorteController {
     @Get('get-all')
     async getAllData() {
       return this.cohorteService.getAllData();
+    }
+
+    @Post('download-xlsx/:start_date/:end_date')
+    async downloadReport(
+        @Res() res: Response,
+        @Param('start_date') start_date: Date,
+        @Param('end_date') end_date: Date
+        ) {
+        let result = await this.cohorteService.downloadExcel(start_date, end_date); 
+            res.set("Content-Type", "text/xlsx");
+        res.download(`${result}`);
     }
 
     @Post()

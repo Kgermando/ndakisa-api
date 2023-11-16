@@ -15,10 +15,7 @@ export class Cohorte {
     contrat_ref: string; 
 
     @Column({default: 'Ouverte'})  // Ouverte et Fermée
-    statut: string;
-
-    // @Column({default: '0'})
-    // montant_global: string;
+    statut_cohorte: string;
 
     @OneToMany(() => Beneficiaire, (item) => item.cohorte, {cascade: true})
     beneficiaires: Beneficiaire[];

@@ -22,7 +22,7 @@ export class BeneficiaireUpdateDto {
     // banque
     montant_garantie?: string;
     credit_accorde?: string;
-    interet?: string;
+    interet_beneficiaire?: string;
     montant_a_debourser?: string;
 
     delai_de_grace?: number; 

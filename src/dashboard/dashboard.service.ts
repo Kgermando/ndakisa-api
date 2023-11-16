@@ -264,14 +264,14 @@ export class DashboardService {
 
     async statutCohorte(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT COALESCE("statut", LEFT('Pas de statut', 40)) AS statut, COUNT(*)
+            SELECT COALESCE("statut_cohorte", LEFT('Pas de statut', 40)) AS statut, COUNT(*)
             FROM cohortes 
             WHERE
             created
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
             '${end_date}' ::TIMESTAMP
-            GROUP BY "statut";
+            GROUP BY "statut_cohorte";
         `);
     }
 

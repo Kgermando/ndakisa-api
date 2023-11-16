@@ -49,7 +49,7 @@ export class BeneficiaireCreateDto {
 
     credit_accorde: string;
 
-    interet: string;
+    interet_beneficiaire: string;
  
     montant_a_debourser: string;
  

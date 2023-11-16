@@ -8,7 +8,7 @@ export class CohorteCreateDto {
     @IsNotEmpty()
     contrat_ref: string;
 
-    statut: string;
+    statut_cohorte: string;
 
     // @IsNotEmpty()
     // montant_global: string; 

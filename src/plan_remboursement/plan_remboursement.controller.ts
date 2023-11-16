@@ -1,9 +1,9 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common'; 
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, Res, UseGuards, UseInterceptors } from '@nestjs/common'; 
 import { AuthGuard } from 'src/auth/auth.guard';
 import { PlanRemboursementService } from './plan_remboursement.service';
 import { PlanRemboursementCreateDto } from './models/plan_remboursement-create.dto';
 import { PlanRemboursementUpdateDto } from './models/plan_remboursement-update.dto';
-
+import type { Response } from 'express';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard)
@@ -18,6 +18,16 @@ export class PlanRemboursementController {
         @Param('id') id: number,
     ) {
       return this.planRemboursementService.findGetAll(id);
+    }
+
+    @Post('download-xlsx/:id')
+    async downloadReport(
+        @Res() res: Response,
+        @Param('id') id: number,
+        ) {
+        let result = await this.planRemboursementService.downloadExcel(id);
+            res.set("Content-Type", "text/xlsx");
+        res.download(`${result}`);
     }
 
     @Post()

@@ -62,7 +62,7 @@ export class Beneficiaire {
     credit_accorde: string;
 
     @Column({default: '0'})
-    interet: string;
+    interet_beneficiaire: string;
 
     @Column({default: '0'})
     montant_a_debourser: string; // Montant à rembourser
