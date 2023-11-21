@@ -1,5 +1,6 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, UseInterceptors } from '@nestjs/common'; 
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, Query, Res, UseGuards, UseInterceptors } from '@nestjs/common'; 
 import { AuthGuard } from 'src/auth/auth.guard'; 
+import type { Response } from 'express';
 import { LogService } from './log.service';
 import { LogCreateDto } from './models/log-create.dto';
 import { LogUpdateDto } from './models/log-update.dto';
@@ -11,6 +12,26 @@ export class LogController {
     constructor(
         private logService: LogService
     ) {}
+
+    @Get('get-log/:start_date/:end_date')
+    async allGetLog(
+        @Param('start_date') start_date: string,
+        @Param('end_date') end_date: string
+    ) {
+        return this.logService.allGetLog(start_date, end_date);
+    }
+
+    @Post('download-xlsx/:start_date/:end_date')
+    async downloadReport(
+        @Res() res: Response,
+        @Param('start_date') start_date: Date,
+        @Param('end_date') end_date: Date
+        ) {
+        let result = await this.logService.downloadExcel(start_date, end_date); 
+            res.set("Content-Type", "text/xlsx");
+        res.download(`${result}`);
+    }
+
 
     @Get()
     async all(@Query('page') page = 1) {
