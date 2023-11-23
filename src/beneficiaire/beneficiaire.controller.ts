@@ -12,6 +12,20 @@ export class BeneficiaireController {
         private beneficiaireService: BeneficiaireService
     ) {}
 
+    @Get('get-all-cohorte/:id')
+    async getAllCohorte(
+        @Param('id') id: number,
+    ) {
+      return this.beneficiaireService.getAllCohorte(id);
+    }
+
+    @Get('get-all-banque/:id')
+    async getAllBanque(
+        @Param('id') id: number,
+    ) {
+      return this.beneficiaireService.getAllBanque(id);
+    }
+
     @Get('get-all')
     async getAll() {
       return this.beneficiaireService.findGetAll();

@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  monkeypox-api:
+  ndakisa-api:
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,53 +9,58 @@ services:
     image: ndakisa-api
     restart: unless-stopped
     ports:
-      - "3001:3001" 
+      - "3000:3000"
     networks:
       - app-network
     volumes:
       - ./ndakisa-api/:/app
       - /app/node_modules
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
     env_file:
       - .env
 
-  # db:
-  #   restart: always
-  #   image: postgres:latest
-  #   container_name: ndakisa_db
-  #   command: ["-c", "shared_buffers=256MB", "-c", "max_connections=500"]
-  #   volumes:
-  #     - postgres:/var/lib/postgresql/data
-  #     - ./init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
-  #   environment:
-  #     - POSTGRES_PASSWORD=kataku
-  #   ports:
-  #     - 5432:5432
-  #   env_file:
-  #     - .env
-  #   expose:
-  #     - 5432
-  #   networks:
-  #     - app-network
-
+  db:
+    restart: always
+    image: postgres:latest
+    container_name: ndakisa_db
+    command: ["-c", "shared_buffers=256MB", "-c", "max_connections=500"]
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=kataku
+      - POSTGRES_DB=postgres
+    ports:
+      - 5454:5432
+    env_file:
+      - .env
+    expose:
+      - 5454
+    networks:
+      - app-network
   
+  adminer:
+    image: adminer
+    container_name: ndakisa-adminer
+    restart: always
+    ports:
+      - 8083:8080
+    networks:
+      - app-network
 
- 
-  
-  # adminer:
-  #   image: adminer
-  #   container_name: monkeypox-adminer
-  #   restart: always
-  #   ports:
-  #     - 8082:8080
-  #   networks:
-  #     - app-network
-
-# volumes:
-#   postgres:
-#     driver: local 
+volumes:
+  postgres:
+    driver: local 
 
 networks:
   app-network:
     driver: bridge
+
+# docker system prune
+# docker rmi -f ndakisa-api  // Supprimer une image
+# docker rm -f <Container ID> // 260fb7520a70
+# docker compose build ndakisa
+# docker compose up --build -d
+# docker compose up --rebuild -d

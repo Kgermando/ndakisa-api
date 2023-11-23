@@ -17,9 +17,26 @@ export class BeneficiaireService extends AbstractService {
         return await this.repository.find({
             relations: { 
                 plan_remboursements: true, 
-            } 
+            }
         });
     }
+
+    getAllCohorte(id): Promise<any[]> {
+        return this.dataSource.query(`
+            SELECT *
+            FROM beneficiaires 
+            WHERE "cohorteId"='${id}' ORDER BY created ASC;
+        `);
+    }
+
+    getAllBanque(id): Promise<any[]> {
+        return this.dataSource.query(`
+            SELECT *
+            FROM beneficiaires 
+            WHERE "banqueId"='${id}' ORDER BY created ASC;
+        `);
+    }
+
 
     async findGetOne(condition): Promise<any> {
         return await this.repository.findOne({
