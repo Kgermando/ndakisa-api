@@ -47,5 +47,5 @@ export class RegisterDto {
     created: Date;
 
     @IsNotEmpty()
-    update_created : Date;
+    update_created: Date;
 }

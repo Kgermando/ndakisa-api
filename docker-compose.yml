@@ -9,9 +9,9 @@ services:
     image: ndakisa-api
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3001:3001"
     networks:
-      - app-network
+      - app-network-ndakisa
     volumes:
       - ./ndakisa-api/:/app
       - /app/node_modules
@@ -22,16 +22,15 @@ services:
 
   db:
     restart: always
-    image: postgres:latest
+    image: postgres:15
     container_name: ndakisa_db
     command: ["-c", "shared_buffers=256MB", "-c", "max_connections=500"]
     volumes:
       - postgres:/var/lib/postgresql/data
       - ./init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
     environment:
-      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=kataku
-      - POSTGRES_DB=postgres
+      - POSTGRES_DATABASE='ndakisa_db'
     ports:
       - 5454:5432
     env_file:
@@ -39,8 +38,8 @@ services:
     expose:
       - 5454
     networks:
-      - app-network
-  
+      - app-network-ndakisa
+
   adminer:
     image: adminer
     container_name: ndakisa-adminer
@@ -48,14 +47,14 @@ services:
     ports:
       - 8083:8080
     networks:
-      - app-network
+      - app-network-ndakisa
 
 volumes:
   postgres:
     driver: local 
 
 networks:
-  app-network:
+  app-network-ndakisa:
     driver: bridge
 
 # docker system prune

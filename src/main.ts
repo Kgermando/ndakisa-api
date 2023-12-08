@@ -13,7 +13,7 @@ async function bootstrap() {
     origin: 'http://localhost:4200',
     credentials: true
   });
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 3002;
   app.listen(PORT, () => {
     console.log(`System ndakisa listening on port ${PORT}`);
     console.log('Press Ctrl+C to quit.');

@@ -196,7 +196,8 @@ export class DashboardService {
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
             '${end_date}' ::TIMESTAMP
-            GROUP BY total, province;
+            GROUP BY total, province
+            ORDER BY province;
         `);
     }
 
@@ -252,13 +253,13 @@ export class DashboardService {
     async remboursementCohorte(start_date, end_date) {
         return this.dataSource.query(`
             SELECT "cohortes"."name_cohorte", COUNT("beneficiaires"."id") AS beneficiaire
-                FROM beneficiaires
-                LEFT JOIN "cohortes" ON "cohortes"."id" = "beneficiaires"."cohorteId"
-                WHERE "beneficiaires"."created"
-                BETWEEN
-                '${start_date}' ::TIMESTAMP AND
-                '${end_date}' ::TIMESTAMP
-                GROUP BY "cohortes"."name_cohorte";
+            FROM beneficiaires
+            LEFT JOIN "cohortes" ON "cohortes"."id" = "beneficiaires"."cohorteId"
+            WHERE "beneficiaires"."created"
+            BETWEEN
+            '${start_date}' ::TIMESTAMP AND
+            '${end_date}' ::TIMESTAMP
+            GROUP BY "cohortes"."name_cohorte"; 
         `);
     }
 

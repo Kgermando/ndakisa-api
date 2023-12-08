@@ -75,6 +75,9 @@ export class Beneficiaire {
     duree_credit: number; // La durée de validité que le beneficiaire devra payé
 
     @Column({default: new Date()})
+    date_soumission: Date; // Date à la quel on a soumis le dossier à la banque
+
+    @Column({default: new Date()})
     date_valeur: Date; // Date à la quel on donné le credit
 
     @Column({default: new Date()})
