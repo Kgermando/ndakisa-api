@@ -63,11 +63,13 @@ export class BeneficiaireCreateDto {
  
     date_maturite: Date; // Date du dernier remboursement donc écheance 
 
+    statut: string; 
+
+    systeme_remboursement: string; // Lineaire // Progrssif
+
     cohorte: Cohorte;
  
     banque: Banque;
- 
-    statut: string; 
 
     @IsNotEmpty()
     signature: string;

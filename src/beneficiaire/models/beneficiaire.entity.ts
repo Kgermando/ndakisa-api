@@ -86,6 +86,9 @@ export class Beneficiaire {
     @Column({default: 'En cours'})  // En cours // Terminer
     statut: string;
 
+    @Column({default: 'Lineaire'})  // Lineaire // Progrssif
+    systeme_remboursement: string;
+
     @ManyToOne(() => Cohorte, (item)=> item.beneficiaires, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     cohorte: Cohorte;
 

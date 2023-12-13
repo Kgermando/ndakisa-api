@@ -10,6 +10,8 @@ services:
     restart: unless-stopped
     ports:
       - "3001:3001"
+    expose:
+      - 3001
     networks:
       - app-network-ndakisa
     volumes:
@@ -29,8 +31,7 @@ services:
       - postgres:/var/lib/postgresql/data
       - ./init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
     environment:
-      - POSTGRES_PASSWORD=kataku
-      - POSTGRES_DATABASE='ndakisa_db'
+      - POSTGRES_PASSWORD=kataku 
     ports:
       - 5454:5432
     env_file:

@@ -19,10 +19,10 @@ export class CohorteService extends AbstractService {
     async getAllData(): Promise<any> {
         return await this.repository.find({
             order: {created: 'DESC'},
-            relations: {
-                beneficiaires: true,
-                plan_remboursements: true
-            }
+            // relations: {
+            //     beneficiaires: true,
+            //     plan_remboursements: true
+            // }
         });
     }
 
@@ -34,6 +34,35 @@ export class CohorteService extends AbstractService {
                 plan_remboursements: true
             }
         });
+    }
+
+    async tauxProgessionCohorte(id) {
+        return this.dataSource.query(`
+            WITH resultat_montant_a_rembourser AS (
+                SELECT COALESCE(SUM(cast("beneficiaires"."montant_a_debourser" as decimal(20,2))), 0) AS montant_a_rembourser
+                FROM beneficiaires WHERE "cohorteId"='${id}'
+            ),
+            resultat_montant_payer AS (
+                SELECT COALESCE(SUM(cast("plan_remboursements"."montant_payer" as decimal(20,2))), 0) AS montant_payer
+                FROM plan_remboursements WHERE "cohorteId"='${id}'
+            )
+        
+            SELECT COALESCE(
+                cast(montant_payer*100/
+                (
+                    CASE(montant_a_rembourser) WHEN 0 THEN 1
+                    ELSE (montant_a_rembourser) END
+                ) as decimal(20,2)), 0
+            ) AS pourcentage 
+
+            FROM resultat_montant_payer, resultat_montant_a_rembourser;
+        `);
+    }
+
+    async nbreBeneficiaireCohorte(id) {
+        return this.dataSource.query(`
+            SELECT COUNT(*) FROM beneficiaires WHERE "cohorteId"='${id}';
+        `);
     }
 
     async downloadExcel(start_date, end_date) {

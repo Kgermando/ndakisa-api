@@ -31,9 +31,12 @@ export class BeneficiaireUpdateDto {
     date_valeur?: Date; // Date à la quel on donné le credit
     date_maturite?: Date; // Date du dernier remboursement donc écheance 
     
-    cohorte?: Cohorte;
-    banque?: Banque;
     statut?: string; 
+    systeme_remboursement?: string; // Lineaire // Progrssif
+
+    cohorte?: Cohorte;
+    banque?: Banque; 
+    
     signature?: string;
     created?: Date;    
     update_created?: Date;

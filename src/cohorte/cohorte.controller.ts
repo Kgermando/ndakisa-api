@@ -25,6 +25,20 @@ export class CohorteController {
       return this.cohorteService.getAllData();
     }
 
+    @Get('taux-progression-cohorte/:id')
+    async tauxProgessionCohorte(
+        @Param('id') id: number
+    ) {
+        return this.cohorteService.tauxProgessionCohorte(id);
+    }
+
+    @Get('nbre-beneficiaire-cohorte/:id')
+    async nbreBeneficiaireCohorte(
+        @Param('id') id: number
+    ) {
+        return this.cohorteService.nbreBeneficiaireCohorte(id);
+    }
+
     @Post('download-xlsx/:start_date/:end_date')
     async downloadReport(
         @Res() res: Response,
