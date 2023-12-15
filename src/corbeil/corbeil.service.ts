@@ -13,7 +13,7 @@ export class CorbeilService {
     getAllCohorte(): Promise<any[]> {
         return this.dataSource.query(`
             SELECT id, 
-                name_cohorte,
+                name_cohorte AS title,
                 update_created,
                 type
             FROM cohortes 
@@ -24,7 +24,7 @@ export class CorbeilService {
     getAllBeneficiaire(): Promise<any[]> {
         return this.dataSource.query(`
             SELECT id, 
-                name_beneficiaire,
+                name_beneficiaire AS title,
                 update_created,
                 type
             FROM beneficiaires 
@@ -35,7 +35,7 @@ export class CorbeilService {
     getAllUser(): Promise<any[]> {
         return this.dataSource.query(`
             SELECT id, 
-                matricule,
+                matricule AS title,
                 update_created,
                 type
             FROM users 
