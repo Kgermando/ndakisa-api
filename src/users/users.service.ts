@@ -13,6 +13,13 @@ export class UsersService extends AbstractService {
         super(dataRepository); 
     }
 
+    async getAllData(): Promise<any> {
+        return await this.repository.find({
+            where: {is_delete: false},
+            order: {created: 'DESC'}, 
+        });
+    }
+
     async findGetOne(condition): Promise<any> {
         return await this.repository.findOne({
             where: condition,

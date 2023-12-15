@@ -18,6 +18,7 @@ export class CohorteService extends AbstractService {
 
     async getAllData(): Promise<any> {
         return await this.repository.find({
+            where: {is_delete: false},
             order: {created: 'DESC'},
             // relations: {
             //     beneficiaires: true,
@@ -36,11 +37,19 @@ export class CohorteService extends AbstractService {
         });
     }
 
+    getCreditAccorde(id): Promise<any[]> {
+        return this.dataSource.query(`
+            SELECT COALESCE(SUM(cast("beneficiaires"."credit_accorde" as decimal(20,2))), 0) AS credit_accorde
+            FROM beneficiaires WHERE "cohorteId"='${id}' AND "is_delete"='false'
+        `);
+    }
+
+
     async tauxProgessionCohorte(id) {
         return this.dataSource.query(`
             WITH resultat_montant_a_rembourser AS (
                 SELECT COALESCE(SUM(cast("beneficiaires"."montant_a_debourser" as decimal(20,2))), 0) AS montant_a_rembourser
-                FROM beneficiaires WHERE "cohorteId"='${id}'
+                FROM beneficiaires WHERE "cohorteId"='${id}' AND "is_delete"='false'
             ),
             resultat_montant_payer AS (
                 SELECT COALESCE(SUM(cast("plan_remboursements"."montant_payer" as decimal(20,2))), 0) AS montant_payer
@@ -61,7 +70,7 @@ export class CohorteService extends AbstractService {
 
     async nbreBeneficiaireCohorte(id) {
         return this.dataSource.query(`
-            SELECT COUNT(*) FROM beneficiaires WHERE "cohorteId"='${id}';
+            SELECT COUNT(*) FROM beneficiaires WHERE "cohorteId"='${id}' AND "is_delete"='false';
         `);
     }
 
@@ -106,7 +115,7 @@ export class CohorteService extends AbstractService {
             LEFT JOIN "banques" ON "banques"."id" = "beneficiaires"."banqueId"
             LEFT JOIN "secteurs" ON "secteurs"."id" = "beneficiaires"."secteurActiviteId"
             WHERE "beneficiaires"."created">='${start_date}' AND 
-            "beneficiaires"."created"<='${end_date}';
+            "beneficiaires"."created"<='${end_date}' AND "is_delete"='false';
         `);
 
         if(!data) {

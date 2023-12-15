@@ -14,7 +14,7 @@ export class DashboardService {
             SELECT count(*) as total FROM beneficiaires 
             WHERE created BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP;
+            '${end_date}' ::TIMESTAMP AND "is_delete"='false';
         `);
     }
 
@@ -23,7 +23,7 @@ export class DashboardService {
             SELECT count(*) as total FROM cohortes 
             WHERE created BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP;
+            '${end_date}' ::TIMESTAMP AND "is_delete"='false';
         `);
     }
 
@@ -41,7 +41,7 @@ export class DashboardService {
             SELECT sexe, COUNT(sexe) FROM beneficiaires 
             WHERE created BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP
+            '${end_date}' ::TIMESTAMP AND "is_delete"='false'
             GROUP BY sexe;
         `);
     }
@@ -57,7 +57,7 @@ export class DashboardService {
                 FROM beneficiaires 
                 WHERE created BETWEEN
                 '${start_date}' ::TIMESTAMP AND
-                '${end_date}' ::TIMESTAMP;
+                '${end_date}' ::TIMESTAMP AND "is_delete"='false';
         `);
     }
 
@@ -66,7 +66,7 @@ export class DashboardService {
             SELECT COALESCE(SUM(cast(montant_garantie as decimal(20,2))), 0) as montant_garantie
             FROM beneficiaires WHERE created BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP;
+            '${end_date}' ::TIMESTAMP AND "is_delete"='false';
         `);
     }
 
@@ -75,7 +75,7 @@ export class DashboardService {
             SELECT COALESCE(SUM(cast(credit_accorde as decimal(20,2))), 0) as credit_accorde
             FROM beneficiaires WHERE created BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP;
+            '${end_date}' ::TIMESTAMP AND "is_delete"='false';
         `);
     }
 
@@ -84,16 +84,18 @@ export class DashboardService {
             SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(20,2))), 0) as montant_a_rembourser
             FROM beneficiaires WHERE created BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP;
+            '${end_date}' ::TIMESTAMP AND "is_delete"='false';
         `);
     }
 
     async totalRembourse(start_date, end_date) {
         return this.dataSource.query(`
             SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) as montant_payer
-            FROM plan_remboursements WHERE created BETWEEN
+            FROM plan_remboursements 
+            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+            WHERE "plan_remboursements"."created" BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP;
+            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false';
         `);
     }
 
@@ -105,16 +107,18 @@ export class DashboardService {
                     SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(20,2))), 0)
                     FROM beneficiaires WHERE created BETWEEN
                     '${start_date}' ::TIMESTAMP AND
-                    '${end_date}' ::TIMESTAMP
+                    '${end_date}' ::TIMESTAMP AND "is_delete"='false'
                 )
 
                 -
 
                 (
                     SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0)
-                    FROM plan_remboursements WHERE created BETWEEN
+                    FROM plan_remboursements 
+                    LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+                    WHERE "plan_remboursements"."created" BETWEEN
                     '${start_date}' ::TIMESTAMP AND
-                    '${end_date}' ::TIMESTAMP
+                    '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false' 
                 )
         
             ) AS reste_a_rembourser; 
@@ -129,7 +133,7 @@ export class DashboardService {
             WHERE "beneficiaires"."sexe"='Homme' AND "plan_remboursements"."created"
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP 
+            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
             GROUP BY "beneficiaires"."sexe", "plan_remboursements"."created"
             ORDER BY "plan_remboursements"."created"
         `);
@@ -142,7 +146,7 @@ export class DashboardService {
             WHERE "beneficiaires"."sexe"='Femme' AND "plan_remboursements"."created"
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP 
+            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
             GROUP BY "beneficiaires"."sexe", "plan_remboursements"."created"
             ORDER BY "plan_remboursements"."created"
         `);
@@ -155,7 +159,7 @@ export class DashboardService {
             WHERE "plan_remboursements"."created"
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP 
+            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
             GROUP BY "plan_remboursements"."created"
             ORDER BY "plan_remboursements"."created"
         `);
@@ -166,10 +170,11 @@ export class DashboardService {
             SELECT "banques"."name_banque", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer
                 FROM plan_remboursements
                 LEFT JOIN "banques" ON "banques"."id" = "plan_remboursements"."banqueId"
+                LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
                 WHERE "plan_remboursements"."created"
                 BETWEEN
                 '${start_date}' ::TIMESTAMP AND
-                '${end_date}' ::TIMESTAMP
+                '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false' 
                 GROUP BY "banques"."name_banque";
         `);
     }
@@ -182,14 +187,14 @@ export class DashboardService {
             created
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP
+            '${end_date}' ::TIMESTAMP AND "is_delete"='false'
             GROUP BY "statut";
         `);
     }
 
     async tauxParticipatiionProvince(start_date, end_date) {
         return this.dataSource.query(`
-            WITH resultat AS (SELECT COUNT(id) AS total FROM beneficiaires) 
+            WITH resultat AS (SELECT COUNT(id) AS total FROM beneficiaires WHERE "is_delete"='false')
             SELECT province, COUNT(province)*100/total AS pourcentage 
             FROM resultat, beneficiaires 
             WHERE created
@@ -204,7 +209,7 @@ export class DashboardService {
     // async repartitionMontantRemboursement(start_date, end_date) {}
 
     // total à rembourser, total remboursé, reste à rembourser
-    async remboursementTotalEtReste(start_date, end_date) { 
+    async remboursementTotalEtReste(start_date, end_date) {
         return this.dataSource.query(`
         SELECT COALESCE((
                 SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(20,2))), 0)
@@ -212,15 +217,16 @@ export class DashboardService {
                 WHERE "beneficiaires"."created"
                         BETWEEN
                         '${start_date}' ::TIMESTAMP AND
-                        '${end_date}' ::TIMESTAMP
+                        '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
                 )) AS total_a_rembourse,
             COALESCE((
                         SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0)
                         FROM plan_remboursements
+                        LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
                         WHERE "plan_remboursements"."created"
                         BETWEEN
                         '${start_date}' ::TIMESTAMP AND
-                        '${end_date}' ::TIMESTAMP
+                        '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false' 
                     )) AS total_rembourse, 
             COALESCE((
                         SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(20,2))), 0)
@@ -228,16 +234,17 @@ export class DashboardService {
                         WHERE "beneficiaires"."created"
                         BETWEEN
                         '${start_date}' ::TIMESTAMP AND
-                        '${end_date}' ::TIMESTAMP
+                        '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
                     )
                     -
                     (
                         SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0)
                         FROM plan_remboursements
+                        LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
                         WHERE "plan_remboursements"."created"
                         BETWEEN
                         '${start_date}' ::TIMESTAMP AND
-                        '${end_date}' ::TIMESTAMP
+                        '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
                     ), 0) AS reste_a_rembourse,  
             EXTRACT(MONTH FROM "plan_remboursements"."created" ::TIMESTAMP) as month
             FROM plan_remboursements 
@@ -245,7 +252,7 @@ export class DashboardService {
             WHERE "plan_remboursements"."created"
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP
+            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
             GROUP BY month; 
         `);
     }
@@ -258,7 +265,7 @@ export class DashboardService {
             WHERE "beneficiaires"."created"
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP
+            '${end_date}' ::TIMESTAMP AND "cohortes"."is_delete"='false'
             GROUP BY "cohortes"."name_cohorte"; 
         `);
     }
@@ -271,7 +278,7 @@ export class DashboardService {
             created
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP
+            '${end_date}' ::TIMESTAMP AND "is_delete"='false'
             GROUP BY "statut_cohorte";
         `);
     }
@@ -285,7 +292,7 @@ export class DashboardService {
             "beneficiaires"."created"
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP
+            '${end_date}' ::TIMESTAMP AND "is_delete"='false'
             GROUP BY "name_secteur";
         `);
     }

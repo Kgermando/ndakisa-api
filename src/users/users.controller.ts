@@ -21,7 +21,7 @@ export class UsersController {
 
     @Get('get-all')
     async getAll() {
-      return this.userService.all();
+      return this.userService.getAllData();
     }
 
     @Post()

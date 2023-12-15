@@ -20,6 +20,20 @@ export class PlanRemboursementController {
       return this.planRemboursementService.findGetAll(id);
     }
 
+    @Get('get-plan-remboursement-cohorte/:id')
+    async getAllPlanRemboursementCohorte(
+        @Param('id') id: number,
+    ) {
+      return this.planRemboursementService.getAllPlanRemboursementCohorte(id);
+    }
+
+    @Get('get-plan-remboursement-banque/:id')
+    async getAllPlanRemboursementBanque(
+        @Param('id') id: number,
+    ) {
+      return this.planRemboursementService.getAllPlanRemboursementBanque(id);
+    }
+
     @Post('download-xlsx/:id')
     async downloadReport(
         @Res() res: Response,

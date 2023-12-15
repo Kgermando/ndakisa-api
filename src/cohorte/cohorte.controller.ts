@@ -39,6 +39,13 @@ export class CohorteController {
         return this.cohorteService.nbreBeneficiaireCohorte(id);
     }
 
+    @Get('total-garantie/:id')
+    async getCreditAccorde(
+        @Param('id') id: number
+    ) {
+        return this.cohorteService.getCreditAccorde(id);
+    }
+
     @Post('download-xlsx/:start_date/:end_date')
     async downloadReport(
         @Res() res: Response,

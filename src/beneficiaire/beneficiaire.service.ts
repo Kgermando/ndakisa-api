@@ -15,17 +15,21 @@ export class BeneficiaireService extends AbstractService {
 
     async findGetAll(): Promise<any[]> {
         return await this.repository.find({
+            where: {is_delete: false},
             relations: { 
                 plan_remboursements: true,
             }
         });
     }
 
+ 
     getAllCohorte(id): Promise<any[]> {
         return this.dataSource.query(`
             SELECT *
-            FROM beneficiaires 
-            WHERE "cohorteId"='${id}' ORDER BY created ASC;
+            FROM beneficiaires
+            LEFT JOIN "cohortes" ON "cohortes"."id" = "beneficiaires"."cohorteId"
+            LEFT JOIN "banques" ON "banques"."id" = "beneficiaires"."banqueId"
+            WHERE "cohorteId"='${id}' AND "beneficiaires"."is_delete"='false' ORDER BY "beneficiaires"."created" ASC;
         `);
     }
 
@@ -33,7 +37,9 @@ export class BeneficiaireService extends AbstractService {
         return this.dataSource.query(`
             SELECT *
             FROM beneficiaires 
-            WHERE "banqueId"='${id}' ORDER BY created ASC;
+            LEFT JOIN "cohortes" ON "cohortes"."id" = "beneficiaires"."cohorteId"
+            LEFT JOIN "banques" ON "banques"."id" = "beneficiaires"."banqueId"
+            WHERE "banqueId"='${id}' AND "beneficiaires"."is_delete"='false' ORDER BY "beneficiaires"."created" ASC;
         `);
     }
 

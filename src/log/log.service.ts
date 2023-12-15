@@ -28,7 +28,7 @@ export class LogService extends AbstractService {
             FROM logs_users
             LEFT JOIN "users" ON "users"."id" = "logs_users"."userId"
             WHERE "logs_users"."date_operation">='${start_date}' AND 
-            "logs_users"."date_operation"<='${end_date}';
+            "logs_users"."date_operation"<='${end_date}' ORDER BY date_operation DESC;
         `);
     }
  

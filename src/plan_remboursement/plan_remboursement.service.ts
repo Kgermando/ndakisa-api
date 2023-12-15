@@ -24,6 +24,24 @@ export class PlanRemboursementService extends AbstractService {
         `);
     }
 
+    getAllPlanRemboursementBanque(id): Promise<any[]> {
+        return this.dataSource.query(`
+            SELECT *
+            FROM plan_remboursements
+            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+            WHERE "plan_remboursements"."banqueId"='${id}' AND "beneficiaires"."is_delete"='false';
+        `);
+    }
+
+    getAllPlanRemboursementCohorte(id): Promise<any[]> {
+        return this.dataSource.query(`
+            SELECT *
+            FROM plan_remboursements
+            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+            WHERE "plan_remboursements"."cohorteId"='${id}' AND "beneficiaires"."is_delete"='false';
+        `);
+    }
+
     
 
     // async findGetAll(): Promise<any> {
