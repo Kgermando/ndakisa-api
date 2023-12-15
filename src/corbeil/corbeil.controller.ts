@@ -1,11 +1,6 @@
-import { ClassSerializerInterceptor, Controller, Get,
-     UseGuards, UseInterceptors } from '@nestjs/common'; 
-import { AuthGuard } from 'src/auth/auth.guard'; 
+import { Controller, Get } from '@nestjs/common';
 import { CorbeilService } from './corbeil.service';
 
-
-@UseInterceptors(ClassSerializerInterceptor)
-@UseGuards(AuthGuard) 
 @Controller('corbeil')
 export class CorbeilController {
     constructor(
