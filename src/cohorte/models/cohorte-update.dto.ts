@@ -7,4 +7,6 @@ export class CohorteUpdateDto {
     signature?: string;
     created?: Date;
     update_created?: Date;
+
+    is_delete?: boolean;
 }

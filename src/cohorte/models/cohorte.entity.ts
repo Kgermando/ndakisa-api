@@ -31,4 +31,10 @@ export class Cohorte {
 
     @Column()
     update_created: Date;
+
+    @Column({default: false})
+    is_delete: boolean;
+
+    @Column({default: 'Cohorte'})
+    type: string;
 }

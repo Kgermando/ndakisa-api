@@ -107,4 +107,10 @@ export class Beneficiaire {
 
     @Column()
     update_created: Date;
+
+    @Column({default: false})
+    is_delete: boolean;
+
+    @Column({default: 'Beneficiaire'})
+    type: string;
 }

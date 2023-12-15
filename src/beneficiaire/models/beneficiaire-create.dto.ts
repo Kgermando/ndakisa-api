@@ -79,4 +79,6 @@ export class BeneficiaireCreateDto {
 
     @IsNotEmpty()
     update_created: Date;
+
+    is_delete: boolean;
 }

@@ -15,6 +15,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { PlanRemboursementModule } from './plan_remboursement/plan_remboursement.module';
 import { LogModule } from './log/log.module';
 import { SecteursModule } from './secteurs/secteurs.module';
+import { CorbeilModule } from './corbeil/corbeil.module';
 
 
 @Module({
@@ -51,6 +52,7 @@ import { SecteursModule } from './secteurs/secteurs.module';
     PlanRemboursementModule,
     LogModule,
     SecteursModule,
+    CorbeilModule,
   ],
   providers: [
     {

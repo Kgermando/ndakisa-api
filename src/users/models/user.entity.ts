@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
 import { LogUser } from "src/log/models/log.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
 export class User {
@@ -64,4 +64,10 @@ export class User {
 
     @Column()
     update_created : Date;
+
+    @Column({default: false})
+    is_delete: boolean;
+
+    @Column({default: 'Utilisateur'})
+    type: string;
 }

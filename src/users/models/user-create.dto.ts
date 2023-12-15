@@ -44,5 +44,7 @@ export class UserCreateDto {
     created: Date;
 
     @IsNotEmpty()
-    update_created : Date;
+    update_created: Date;
+
+    is_delete: boolean;
 }

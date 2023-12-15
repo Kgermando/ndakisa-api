@@ -21,4 +21,6 @@ export class CohorteCreateDto {
 
     @IsNotEmpty()
     update_created: Date;
+
+    is_delete: boolean;
 }
