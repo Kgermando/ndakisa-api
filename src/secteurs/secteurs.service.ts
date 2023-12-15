@@ -28,6 +28,7 @@ export class SecteursService extends AbstractService {
             where: condition,
             relations: {
                 beneficiaires: true,
+                plan_remboursements: true,
             }
         });
     }

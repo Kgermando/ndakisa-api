@@ -16,7 +16,7 @@ export class BeneficiaireService extends AbstractService {
     async findGetAll(): Promise<any[]> {
         return await this.repository.find({
             relations: { 
-                plan_remboursements: true, 
+                plan_remboursements: true,
             }
         });
     }

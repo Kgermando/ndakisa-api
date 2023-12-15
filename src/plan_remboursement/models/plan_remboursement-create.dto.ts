@@ -2,6 +2,7 @@ import { IsNotEmpty } from "class-validator";
 import { Banque } from "src/banque/models/banque.entity";
 import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity";
 import { Cohorte } from "src/cohorte/models/cohorte.entity";
+import { Secteur } from "src/secteurs/models/secteur.entity";
 
 export class PlanRemboursementCreateDto { 
  
@@ -13,6 +14,9 @@ export class PlanRemboursementCreateDto {
     
     @IsNotEmpty()
     beneficiaire: Beneficiaire; 
+
+    @IsNotEmpty()
+    secteur_activite: Secteur;
 
     @IsNotEmpty()
     date_de_rembousement: Date;

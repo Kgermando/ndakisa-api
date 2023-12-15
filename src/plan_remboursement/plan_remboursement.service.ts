@@ -20,7 +20,7 @@ export class PlanRemboursementService extends AbstractService {
         return this.dataSource.query(`
             SELECT *
             FROM plan_remboursements 
-            WHERE "beneficiaireId"='${id}' ORDER BY created ASC;
+            WHERE "beneficiaireId"='${id}' ORDER BY date_de_rembousement ASC;
         `);
     }
 

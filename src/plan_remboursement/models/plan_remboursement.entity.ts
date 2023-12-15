@@ -1,6 +1,7 @@
 import { Banque } from "src/banque/models/banque.entity";
 import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity";
 import { Cohorte } from "src/cohorte/models/cohorte.entity";
+import { Secteur } from "src/secteurs/models/secteur.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('plan_remboursements')
@@ -17,6 +18,9 @@ export class PlanRemboursement {
 
     @ManyToOne(() => Beneficiaire, (item)=> item.plan_remboursements, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     beneficiaire: Beneficiaire;
+
+    @ManyToOne(() => Secteur, (item)=> item.plan_remboursements, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    secteur_activite: Secteur; 
  
     @Column({default: new Date()})
     date_de_rembousement: Date; // Date de remboursement à la banque doit etre ajustable
