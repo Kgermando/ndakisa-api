@@ -6,6 +6,9 @@ export class BanqueCreateDto {
     name_banque: string;
 
     @IsNotEmpty()
+    statut: boolean;
+
+    @IsNotEmpty()
     signature: string;
 
     @IsNotEmpty()

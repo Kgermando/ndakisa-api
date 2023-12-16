@@ -11,6 +11,9 @@ export class Banque {
     @Column()
     name_banque: string; 
 
+    @Column({default: true})
+    statut: boolean;  // True => la Banque est activé AND False => la Banque est bloqué
+
     @OneToMany(() => Beneficiaire, (item) => item.banque, {cascade: true})
     beneficiaires: Beneficiaire[];
 
