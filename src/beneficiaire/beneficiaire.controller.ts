@@ -26,6 +26,13 @@ export class BeneficiaireController {
       return this.beneficiaireService.getAllBanque(id);
     }
 
+    @Get('get-all-secteur/:id')
+    async getAllSecteur(
+        @Param('id') id: number,
+    ) {
+      return this.beneficiaireService.getAllSecteur(id);
+    }
+
     @Get('taux-progression-beneficiaire/:id')
     async tauxProgessionBeneficiaire(
         @Param('id') id: number

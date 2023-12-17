@@ -25,21 +25,127 @@ export class BeneficiaireService extends AbstractService {
  
     getAllCohorte(id): Promise<any[]> {
         return this.dataSource.query(`
-            SELECT *
+            SELECT "beneficiaires"."id",
+                "beneficiaires"."photo",
+                "beneficiaires"."name_beneficiaire",
+                "beneficiaires"."sexe",
+                "beneficiaires"."date_naissance",
+                "beneficiaires"."province",
+                "beneficiaires"."identifiant",
+                "beneficiaires"."email",
+                "beneficiaires"."telephone",
+                "beneficiaires"."raison_sociale",
+                "beneficiaires"."secteurActiviteId",
+                "beneficiaires"."numero_impot",
+                "beneficiaires"."id_nat",
+                "beneficiaires"."rccm",
+                "beneficiaires"."compte_bancaire",
+                "beneficiaires"."adresse",
+                "beneficiaires"."montant_garantie",
+                "beneficiaires"."credit_accorde",
+                "beneficiaires"."interet_beneficiaire",
+                "beneficiaires"."montant_a_debourser",
+                "beneficiaires"."delai_de_grace",
+                "beneficiaires"."duree_credit",
+                "beneficiaires"."date_soumission",
+                "beneficiaires"."date_valeur",
+                "beneficiaires"."date_maturite",
+                "beneficiaires"."statut",
+                "beneficiaires"."signature",
+                "beneficiaires"."created",
+                "beneficiaires"."update_created", 
+                "cohortes"."name_cohorte",
+                "banques"."name_banque",
+                "secteurs"."name_secteur"
             FROM beneficiaires
             LEFT JOIN "cohortes" ON "cohortes"."id" = "beneficiaires"."cohorteId"
             LEFT JOIN "banques" ON "banques"."id" = "beneficiaires"."banqueId"
+            LEFT JOIN "secteurs" ON "secteurs"."id" = "beneficiaires"."secteurActiviteId"
             WHERE "cohorteId"='${id}' AND "beneficiaires"."is_delete"='false' ORDER BY "beneficiaires"."created" ASC;
         `);
     }
 
     getAllBanque(id): Promise<any[]> {
         return this.dataSource.query(`
-            SELECT *
+            SELECT "beneficiaires"."id",
+            "beneficiaires"."photo",
+            "beneficiaires"."name_beneficiaire",
+            "beneficiaires"."sexe",
+            "beneficiaires"."date_naissance",
+            "beneficiaires"."province",
+            "beneficiaires"."identifiant",
+            "beneficiaires"."email",
+            "beneficiaires"."telephone",
+            "beneficiaires"."raison_sociale",
+            "beneficiaires"."secteurActiviteId",
+            "beneficiaires"."numero_impot",
+            "beneficiaires"."id_nat",
+            "beneficiaires"."rccm",
+            "beneficiaires"."compte_bancaire",
+            "beneficiaires"."adresse",
+            "beneficiaires"."montant_garantie",
+            "beneficiaires"."credit_accorde",
+            "beneficiaires"."interet_beneficiaire",
+            "beneficiaires"."montant_a_debourser",
+            "beneficiaires"."delai_de_grace",
+            "beneficiaires"."duree_credit",
+            "beneficiaires"."date_soumission",
+            "beneficiaires"."date_valeur",
+            "beneficiaires"."date_maturite",
+            "beneficiaires"."statut",
+            "beneficiaires"."signature",
+            "beneficiaires"."created",
+            "beneficiaires"."update_created",
+            "cohortes"."name_cohorte",
+            "banques"."name_banque",
+            "secteurs"."name_secteur"
             FROM beneficiaires 
             LEFT JOIN "cohortes" ON "cohortes"."id" = "beneficiaires"."cohorteId"
             LEFT JOIN "banques" ON "banques"."id" = "beneficiaires"."banqueId"
+            LEFT JOIN "secteurs" ON "secteurs"."id" = "beneficiaires"."secteurActiviteId"
             WHERE "banqueId"='${id}' AND "beneficiaires"."is_delete"='false' ORDER BY "beneficiaires"."created" ASC;
+        `);
+    }
+
+    getAllSecteur(id): Promise<any[]> {
+        return this.dataSource.query(`
+            SELECT "beneficiaires"."id",
+            "beneficiaires"."photo",
+            "beneficiaires"."name_beneficiaire",
+            "beneficiaires"."sexe",
+            "beneficiaires"."date_naissance",
+            "beneficiaires"."province",
+            "beneficiaires"."identifiant",
+            "beneficiaires"."email",
+            "beneficiaires"."telephone",
+            "beneficiaires"."raison_sociale",
+            "beneficiaires"."secteurActiviteId",
+            "beneficiaires"."numero_impot",
+            "beneficiaires"."id_nat",
+            "beneficiaires"."rccm",
+            "beneficiaires"."compte_bancaire",
+            "beneficiaires"."adresse",
+            "beneficiaires"."montant_garantie",
+            "beneficiaires"."credit_accorde",
+            "beneficiaires"."interet_beneficiaire",
+            "beneficiaires"."montant_a_debourser",
+            "beneficiaires"."delai_de_grace",
+            "beneficiaires"."duree_credit",
+            "beneficiaires"."date_soumission",
+            "beneficiaires"."date_valeur",
+            "beneficiaires"."date_maturite",
+            "beneficiaires"."statut",
+            "beneficiaires"."signature",
+            "beneficiaires"."created",
+            "beneficiaires"."update_created",
+            "cohortes"."name_cohorte",
+            "banques"."name_banque",
+            "secteurs"."name_secteur"
+            FROM beneficiaires 
+            LEFT JOIN "cohortes" ON "cohortes"."id" = "beneficiaires"."cohorteId"
+            LEFT JOIN "banques" ON "banques"."id" = "beneficiaires"."banqueId"
+            LEFT JOIN "secteurs" ON "secteurs"."id" = "beneficiaires"."secteurActiviteId"
+            WHERE "secteurActiviteId"='${id}' AND "beneficiaires"."is_delete"='false' ORDER BY "beneficiaires"."created" ASC;
         `);
     }
 

@@ -18,8 +18,22 @@ export class PlanRemboursementService extends AbstractService {
 
     findGetAll(id): Promise<any[]> {
         return this.dataSource.query(`
-            SELECT *
+            SELECT "plan_remboursements"."id",
+            "plan_remboursements"."date_de_rembousement",
+            "plan_remboursements"."delai_reajustement",
+            "plan_remboursements"."credit_en_debut_periode",
+            "plan_remboursements"."interet",
+            "plan_remboursements"."capital",
+            "plan_remboursements"."montant_payer",
+            "plan_remboursements"."date_paiement",
+            "plan_remboursements"."observation",
+            "plan_remboursements"."file_scan",
+            "plan_remboursements"."signature",
+            "plan_remboursements"."created",
+            "plan_remboursements"."update_created",
+            "beneficiaires"."name_beneficiaire"
             FROM plan_remboursements 
+            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
             WHERE "beneficiaireId"='${id}' ORDER BY date_de_rembousement ASC;
         `);
     }

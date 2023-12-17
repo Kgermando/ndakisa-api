@@ -83,7 +83,7 @@ export class Beneficiaire {
     @Column({default: new Date()})
     date_maturite: Date; // Date du dernier remboursement donc écheance 
  
-    @Column({default: 'En cours'})  // En cours // Terminer
+    @Column({default: 'En attente'})  // En cours // Terminer
     statut: string;
 
     @Column({default: 'Lineaire'})  // Lineaire // Progrssif
