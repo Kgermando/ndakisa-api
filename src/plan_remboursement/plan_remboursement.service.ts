@@ -54,18 +54,33 @@ export class PlanRemboursementService extends AbstractService {
             LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
             WHERE "plan_remboursements"."cohorteId"='${id}' AND "beneficiaires"."is_delete"='false';
         `);
+    } 
+
+
+    async totalResteARembourser(id) {
+        return this.dataSource.query(`
+            WITH resultat_montant_a_rembourser AS (
+                SELECT COALESCE(SUM(cast("beneficiaires"."montant_a_debourser" as decimal(20,2))), 0) AS montant_a_rembourser
+                FROM beneficiaires WHERE "id"='${id}' AND "is_delete"='false'
+            ),
+            resultat_montant_payer AS (
+                SELECT COALESCE(SUM(cast("plan_remboursements"."montant_payer" as decimal(20,2))), 0) AS montant_payer
+                FROM plan_remboursements WHERE "beneficiaireId"='${id}'
+            )
+        
+            SELECT montant_payer::FLOAT - montant_a_rembourser::FLOAT AS reste_a_rembourser 
+
+            FROM resultat_montant_payer, resultat_montant_a_rembourser;
+        `);
     }
 
-    
+    async totalRemboursE(id) {
+        return this.dataSource.query(`
+            SELECT COALESCE(SUM(cast("plan_remboursements"."montant_payer" as decimal(20,2))), 0) AS montant_payer
+            FROM plan_remboursements WHERE "beneficiaireId"='${id}'
+        `);
+    }
 
-    // async findGetAll(): Promise<any> {
-    //     return await this.repository.find({
-    //         order: {created: 'ASC'},
-    //         relations: {
-    //             beneficiaire: true, 
-    //         } 
-    //     });
-    // }
 
     async findGetOne(condition): Promise<any> {
         return await this.repository.findOne({

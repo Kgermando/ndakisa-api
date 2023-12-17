@@ -16,9 +16,9 @@ export class BeneficiaireService extends AbstractService {
     async findGetAll(): Promise<any[]> {
         return await this.repository.find({
             where: {is_delete: false},
-            relations: { 
-                plan_remboursements: true,
-            }
+            // relations: { 
+            //     plan_remboursements: true,
+            // }
         });
     }
 

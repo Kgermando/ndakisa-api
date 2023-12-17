@@ -34,6 +34,20 @@ export class PlanRemboursementController {
       return this.planRemboursementService.getAllPlanRemboursementBanque(id);
     }
 
+    @Get('reste-a-rembourser/:id')
+    async totalResteARembourser(
+        @Param('id') id: number,
+    ) {
+      return this.planRemboursementService.totalResteARembourser(id);
+    }
+
+    @Get('total-rembourse/:id')
+    async totalRemboursE(
+        @Param('id') id: number,
+    ) {
+      return this.planRemboursementService.totalRemboursE(id);
+    }
+
     @Post('download-xlsx/:id')
     async downloadReport(
         @Res() res: Response,
