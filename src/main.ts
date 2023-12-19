@@ -9,13 +9,13 @@ import * as cookieParser from 'cookie-parser';
 // export var ipv6 = IpAddress.Address6;
 // const allowedOrigins = ['http://localhost:4200', 'http://192.168.100.114:4200', 'http://0.0.0.0:4200'];
 async function bootstrap() {
-  // const isProduction = process.env.NODE_ENV === "production";
+  const isProduction = process.env.NODE_ENV === "production";
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
   app.enableCors({
-    origin: 'https://ndakisa-024.web.app',
+    origin: isProduction ? 'https://ndakisa-024.web.app' : 'http://localhost:4200',
     credentials: true
   });
   const PORT = process.env.PORT || 3002;
