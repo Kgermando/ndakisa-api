@@ -2,8 +2,8 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { AbstractService } from 'src/common/abstract.service';
 import { DataSource, Repository } from 'typeorm';
-import { Workbook } from 'exceljs';
 import * as tmp  from 'tmp';
+import { Workbook } from 'exceljs';
 import { Cohorte } from './models/cohorte.entity';
 import { CohorteExcel } from './models/cohorte_excel';
 
