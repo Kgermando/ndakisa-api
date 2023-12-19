@@ -7,7 +7,7 @@ import * as cookieParser from 'cookie-parser';
 // import * as IpAddress from 'ip-address';
 // export var ipv4 = IpAddress.Address4;
 // export var ipv6 = IpAddress.Address6;
-const allowedOrigins = ['http://localhost:4200', 'http://192.168.100.114:4200', 'http://0.0.0.0:4200'];
+// const allowedOrigins = ['http://localhost:4200', 'http://192.168.100.114:4200', 'http://0.0.0.0:4200'];
 async function bootstrap() {
   // const isProduction = process.env.NODE_ENV === "production";
   const app = await NestFactory.create(AppModule);
@@ -15,12 +15,12 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
   app.enableCors({
-    origin: allowedOrigins,
+    origin: 'https://ndakisa-024.web.app',
     credentials: true
   });
   const PORT = process.env.PORT || 3002;
 
-  app.listen(PORT, '0.0.0.0', () => {
+  app.listen(PORT, () => {
     console.log(`System ndakisa listening on port ${PORT}`);
     console.log('Press Ctrl+C to quit.');
   });
