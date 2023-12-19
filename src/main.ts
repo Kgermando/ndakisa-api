@@ -18,7 +18,7 @@ async function bootstrap() {
     origin: isProduction ? 'https://ndakisa-024.web.app' : 'http://localhost:4200',
     credentials: true
   });
-  const PORT = process.env.PORT || 3002;
+  const PORT = process.env.PORT || 3000;
 
   app.listen(PORT, () => {
     console.log(`System ndakisa listening on port ${PORT}`);
