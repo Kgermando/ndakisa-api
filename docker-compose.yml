@@ -1,26 +1,26 @@
 version: '3'
 
 services:
-  ndakisa-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: ndakisa-api
-    image: ndakisa-api
-    restart: unless-stopped
-    ports:
-      - "3001:3001"
-    expose:
-      - 3001
-    networks:
-      - app-network-ndakisa
-    volumes:
-      - ./ndakisa-api/:/app
-      - /app/node_modules
-    depends_on:
-      - db
-    env_file:
-      - .env
+  # ndakisa-api:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: ndakisa-api
+  #   image: ndakisa-api
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3002:3002"
+  #   expose:
+  #     - 3002
+  #   networks:
+  #     - app-network-ndakisa
+  #   volumes:
+  #     - ./ndakisa-api/:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     - db
+  #   env_file:
+  #     - .env
 
   db:
     restart: always
@@ -33,11 +33,11 @@ services:
     environment:
       - POSTGRES_PASSWORD=kataku 
     ports:
-      - 5454:5432
+      - 5455:5432
     env_file:
       - .env
     expose:
-      - 5454
+      - 5455
     networks:
       - app-network-ndakisa
 
@@ -46,7 +46,7 @@ services:
     container_name: ndakisa-adminer
     restart: always
     ports:
-      - 8083:8080
+      - 8084:8080
     networks:
       - app-network-ndakisa
 
