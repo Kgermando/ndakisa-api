@@ -9,30 +9,21 @@ export class DashboardService {
     ) { 
     }
 
-    async totalBeneficiaire(start_date, end_date) {
+    async totalBeneficiaire() {
         return this.dataSource.query(`
-            SELECT count(*) as total FROM beneficiaires 
-            WHERE created BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "is_delete"='false';
+            SELECT count(*) as total FROM beneficiaires;
         `);
     }
 
-    async totalCohorte(start_date, end_date) {
+    async totalCohorte() {
         return this.dataSource.query(`
-            SELECT count(*) as total FROM cohortes 
-            WHERE created BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "is_delete"='false';
+            SELECT count(*) as total FROM cohortes;
         `);
     }
 
-    async totalBanque(start_date, end_date) {
+    async totalBanque() {
         return this.dataSource.query(`
-            SELECT count(*) as total FROM banques 
-            WHERE created BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP;
+            SELECT count(*) as total FROM banques;
         `);
     }
 
