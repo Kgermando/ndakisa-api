@@ -16,6 +16,8 @@ import { PlanRemboursementModule } from './plan_remboursement/plan_remboursement
 import { LogModule } from './log/log.module';
 import { SecteursModule } from './secteurs/secteurs.module';
 import { CorbeilModule } from './corbeil/corbeil.module';
+import { SupportModuleModule } from './support-module/support-module.module';
+import { SupportModule } from './support/support.module';
 
 
 @Module({
@@ -53,6 +55,8 @@ import { CorbeilModule } from './corbeil/corbeil.module';
     LogModule,
     SecteursModule,
     CorbeilModule,
+    SupportModuleModule,
+    SupportModule,
   ],
   providers: [
     {
