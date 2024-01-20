@@ -92,7 +92,12 @@ export class PlanRemboursementService extends AbstractService {
     }
 
 
-
+    async deleteAll(id: number) {
+        return this.dataSource.query(`
+            DELETE FROM "plan_remboursements"
+            WHERE "beneficiaireId"='${id}';
+        `);
+    }
 
 
 

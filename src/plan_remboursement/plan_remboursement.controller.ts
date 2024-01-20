@@ -48,6 +48,13 @@ export class PlanRemboursementController {
       return this.planRemboursementService.totalRemboursE(id);
     }
 
+    @Get('delete-all/:id')
+    async deleteAll(
+        @Param('id') id: number,
+    ) {
+      return this.planRemboursementService.deleteAll(id);
+    }
+
     @Post('download-xlsx/:id')
     async downloadReport(
         @Res() res: Response,
