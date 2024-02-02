@@ -126,7 +126,7 @@ export class DashboardService {
             '${start_date}' ::TIMESTAMP AND
             '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
             GROUP BY "beneficiaires"."sexe", "plan_remboursements"."created"
-            ORDER BY "plan_remboursements"."created"
+            ORDER BY "plan_remboursements"."created";
         `);
     }
     async progressionRemboursementSexeFemme(start_date, end_date) { 
