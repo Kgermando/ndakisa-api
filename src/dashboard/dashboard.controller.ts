@@ -96,12 +96,9 @@ export class DashboardController {
     return this.dashboardService.statutBeneficiaires(start_date, end_date);
   }
 
-  @Get('taux-participation-province/:start_date/:end_date')
-  async tauxParticipatiionProvince(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.tauxParticipatiionProvince(start_date, end_date);
+  @Get('taux-participation-province')
+  async tauxParticipatiionProvince( ) {
+    return this.dashboardService.tauxParticipatiionProvince();
   }
 
   @Get('total-remboursement-reste/:start_date/:end_date')

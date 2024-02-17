@@ -183,15 +183,11 @@ export class DashboardService {
         `);
     }
 
-    async tauxParticipatiionProvince(start_date, end_date) {
+    async tauxParticipatiionProvince() {
         return this.dataSource.query(`
             WITH resultat AS (SELECT COUNT(id) AS total FROM beneficiaires WHERE "is_delete"='false')
             SELECT province, COUNT(province)*100/total AS pourcentage 
-            FROM resultat, beneficiaires 
-            WHERE created
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP
+            FROM resultat, beneficiaires  
             GROUP BY total, province
             ORDER BY province;
         `);
