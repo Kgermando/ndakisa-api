@@ -18,6 +18,7 @@ import { SecteursModule } from './secteurs/secteurs.module';
 import { CorbeilModule } from './corbeil/corbeil.module';
 import { SupportModuleModule } from './support-module/support-module.module';
 import { SupportModule } from './support/support.module';
+import { BanqueCohorteModule } from './banque_cohorte/banque_cohorte.module';
 
 
 @Module({
@@ -57,6 +58,7 @@ import { SupportModule } from './support/support.module';
     CorbeilModule,
     SupportModuleModule,
     SupportModule,
+    BanqueCohorteModule,
   ],
   providers: [
     {

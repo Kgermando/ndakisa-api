@@ -4,7 +4,6 @@ export interface PlanRemboursementExcel {
     province: string;
     identifiant: string;
     compte_bancaire: string;
-    montant_garantie: string;
     credit_accorde: string;
     interet_beneficiaire: string;
     montant_a_debourser: string;

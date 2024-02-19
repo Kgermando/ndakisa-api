@@ -27,17 +27,15 @@ export class DashboardService {
         `);
     }
 
-    async sexe(start_date, end_date) {
+    async sexe() {
         return this.dataSource.query(`
             SELECT sexe, COUNT(sexe) FROM beneficiaires 
-            WHERE created BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "is_delete"='false'
+            WHERE "is_delete"='false'
             GROUP BY sexe;
         `);
     }
 
-    async ageBeneficiaires(start_date, end_date) {
+    async tranchAgeBeneficiaires() {
         return this.dataSource.query(`
             SELECT
                 COUNT(case when date_part('year', age(date_naissance))>=18 AND date_part('year', age(date_naissance))<=25 then 1 end) as "De 18-25 ans",
@@ -46,18 +44,16 @@ export class DashboardService {
                 COUNT(case when date_part('year', age(date_naissance))>45 AND date_part('year', age(date_naissance))<=55 then 1 end) as "De 45-55 ans", 
                 COUNT(case when date_part('year', age(date_naissance))>55 AND date_part('year', age(date_naissance))<=65 then 1 end) as "De 55-65 ans"
                 FROM beneficiaires 
-                WHERE created BETWEEN
-                '${start_date}' ::TIMESTAMP AND
-                '${end_date}' ::TIMESTAMP AND "is_delete"='false';
+                WHERE "is_delete"='false';
         `);
     }
 
     async totalGarantie(start_date, end_date) {
         return this.dataSource.query(`
             SELECT COALESCE(SUM(cast(montant_garantie as decimal(20,2))), 0) as montant_garantie
-            FROM beneficiaires WHERE created BETWEEN
+            FROM banque_cohortes WHERE created BETWEEN
             '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "is_delete"='false';
+            '${end_date}' ::TIMESTAMP;
         `);
     }
 
@@ -116,43 +112,66 @@ export class DashboardService {
         `);
     }
 
-    async progressionRemboursementSexeHomme(start_date, end_date) { 
+
+
+
+
+    async progressionRemboursementParSexe(start_date, end_date) {
         return this.dataSource.query(`
-        SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer, to_char("plan_remboursements"."created", 'YYYY-MM-DD') as month
-            FROM plan_remboursements
-            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-            WHERE "beneficiaires"."sexe"='Homme' AND "plan_remboursements"."created"
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
-            GROUP BY "beneficiaires"."sexe", "plan_remboursements"."created"
-            ORDER BY "plan_remboursements"."created";
+        SELECT to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as date, "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer
+        FROM plan_remboursements
+        LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+        WHERE "plan_remboursements"."date_paiement"
+        BETWEEN
+        '${start_date}' ::TIMESTAMP AND
+        '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
+        GROUP BY date, sexe
+        ORDER BY date ASC;
         `);
     }
-    async progressionRemboursementSexeFemme(start_date, end_date) { 
+
+
+
+
+
+
+    async progressionRemboursementSexeHomme(start_date, end_date) { 
         return this.dataSource.query(`
-        SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer, to_char("plan_remboursements"."created", 'YYYY-MM-DD') as month
+        SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
             FROM plan_remboursements
             LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-            WHERE "beneficiaires"."sexe"='Femme' AND "plan_remboursements"."created"
+            WHERE "beneficiaires"."sexe"='Homme' AND "plan_remboursements"."date_paiement"
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
             '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
-            GROUP BY "beneficiaires"."sexe", "plan_remboursements"."created"
-            ORDER BY "plan_remboursements"."created"
+            GROUP BY "beneficiaires"."sexe", "plan_remboursements"."date_paiement"
+            ORDER BY "plan_remboursements"."date_paiement";
+        `);
+    } 
+    async progressionRemboursementSexeFemme(start_date, end_date) { 
+        return this.dataSource.query(`
+        SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
+            FROM plan_remboursements
+            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+            WHERE "beneficiaires"."sexe"='Femme' AND "plan_remboursements"."date_paiement"
+            BETWEEN
+            '${start_date}' ::TIMESTAMP AND
+            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
+            GROUP BY "beneficiaires"."sexe", "plan_remboursements"."date_paiement"
+            ORDER BY "plan_remboursements"."date_paiement"
         `);
     }
     async progressionRemboursementSexeDate(start_date, end_date) {
         return this.dataSource.query(`
-        SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer, to_char("plan_remboursements"."created", 'YYYY-MM-DD') as month
+        SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
             FROM plan_remboursements
             LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-            WHERE "plan_remboursements"."created"
+            WHERE "plan_remboursements"."date_paiement"
             BETWEEN
             '${start_date}' ::TIMESTAMP AND
             '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
-            GROUP BY "plan_remboursements"."created"
-            ORDER BY "plan_remboursements"."created"
+            GROUP BY "plan_remboursements"."date_paiement"
+            ORDER BY "plan_remboursements"."date_paiement"
         `);
     }
 
@@ -170,15 +189,11 @@ export class DashboardService {
         `);
     }
 
-    async statutBeneficiaires(start_date, end_date) { 
+    async statutBeneficiaires() { 
         return this.dataSource.query(`
             SELECT COALESCE("statut", LEFT('Pas de statut', 40)) AS statut, COUNT(*)
             FROM beneficiaires 
-            WHERE  
-            created
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "is_delete"='false'
+            WHERE "is_delete"='false'
             GROUP BY "statut";
         `);
     }
@@ -187,7 +202,7 @@ export class DashboardService {
         return this.dataSource.query(`
             WITH resultat AS (SELECT COUNT(id) AS total FROM beneficiaires WHERE "is_delete"='false')
             SELECT province, COUNT(province)*100/total AS pourcentage 
-            FROM resultat, beneficiaires  
+            FROM resultat, beneficiaires 
             GROUP BY total, province
             ORDER BY province;
         `);
@@ -244,15 +259,12 @@ export class DashboardService {
         `);
     }
 
-    async remboursementCohorte(start_date, end_date) {
+    async beneficiaireParCohorte() {
         return this.dataSource.query(`
             SELECT "cohortes"."name_cohorte", COUNT("beneficiaires"."id") AS beneficiaire
             FROM beneficiaires
             LEFT JOIN "cohortes" ON "cohortes"."id" = "beneficiaires"."cohorteId"
-            WHERE "beneficiaires"."created"
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "cohortes"."is_delete"='false'
+            WHERE "cohortes"."is_delete"='false'
             GROUP BY "cohortes"."name_cohorte"; 
         `);
     }

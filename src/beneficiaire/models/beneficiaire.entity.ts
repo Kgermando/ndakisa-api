@@ -55,8 +55,8 @@ export class Beneficiaire {
     adresse: string;
  
     // banque
-    @Column({default: '0'})
-    montant_garantie: string;
+    // @Column({default: '0'})
+    // montant_garantie: string;
 
     @Column({default: '0'})
     credit_accorde: string;

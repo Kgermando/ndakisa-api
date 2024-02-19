@@ -45,7 +45,7 @@ export class BeneficiaireCreateDto {
     adresse: string;
  
     // banque
-    montant_garantie: string;
+    // montant_garantie: string;
 
     credit_accorde: string;
 

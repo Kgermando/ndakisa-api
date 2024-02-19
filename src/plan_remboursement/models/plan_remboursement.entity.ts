@@ -20,7 +20,7 @@ export class PlanRemboursement {
     beneficiaire: Beneficiaire;
 
     @ManyToOne(() => Secteur, (item)=> item.plan_remboursements, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
-    secteur_activite: Secteur; 
+    secteur_activite: Secteur;
  
     @Column({default: new Date()})
     date_de_rembousement: Date; // Date de remboursement à la banque doit etre ajustable

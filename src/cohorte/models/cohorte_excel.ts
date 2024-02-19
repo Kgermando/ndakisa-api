@@ -16,8 +16,7 @@ export interface CohorteExcel {
     id_nat: string;
     rccm: string;
     compte_bancaire: string;
-    adresse: string;
-    montant_garantie: string;
+    adresse: string; 
     credit_accorde: string;
     interet: string;
     montant_a_debourser: string;

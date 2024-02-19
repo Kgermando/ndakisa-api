@@ -23,20 +23,14 @@ export class DashboardController {
     return this.dashboardService.totalBanque();
   }
 
-  @Get('sexe/:start_date/:end_date')
-  async sexe(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.sexe(start_date, end_date);
+  @Get('sexe')
+  async sexe( ) {
+    return this.dashboardService.sexe();
   }
 
-  @Get('age/:start_date/:end_date')
-  async ageBeneficiaires(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.ageBeneficiaires(start_date, end_date);
+  @Get('tranche-age')
+  async ageBeneficiaires( ) {
+    return this.dashboardService.tranchAgeBeneficiaires();
   }
 
 
@@ -88,12 +82,9 @@ export class DashboardController {
     return this.dashboardService.participationParBanque(start_date, end_date);
   }
 
-  @Get('statut-beneficiaire/:start_date/:end_date')
-  async statutBeneficiaires(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.statutBeneficiaires(start_date, end_date);
+  @Get('statut-beneficiaire')
+  async statutBeneficiaires( ) {
+    return this.dashboardService.statutBeneficiaires();
   }
 
   @Get('taux-participation-province')
@@ -109,12 +100,9 @@ export class DashboardController {
     return this.dashboardService.remboursementTotalEtReste(start_date, end_date);
   }
 
-  @Get('remboursement-cohorte/:start_date/:end_date')
-  async remboursementCohorte(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.remboursementCohorte(start_date, end_date);
+  @Get('beneficiaire-cohorte')
+  async beneficiaireParCohorte( ) {
+    return this.dashboardService.beneficiaireParCohorte();
   }
 
   @Get('statut-cohorte/:start_date/:end_date')
@@ -123,6 +111,14 @@ export class DashboardController {
     @Param('end_date') end_date: string
   ) {
     return this.dashboardService.statutCohorte(start_date, end_date);
+  }
+
+  @Get('progression-remboursements-sexe/:start_date/:end_date')
+  async progressionRemboursementParSexe(
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string
+  ) {
+    return this.dashboardService.progressionRemboursementParSexe(start_date, end_date);
   }
 
   @Get('progression-cohorte-homme/:start_date/:end_date')

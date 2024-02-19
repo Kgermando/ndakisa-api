@@ -1,3 +1,4 @@
+import { BanqueCohorte } from "src/banque_cohorte/models/banque-cohorte.entity";
 import { Beneficiaire } from "src/beneficiaire/models/beneficiaire.entity"; 
 import { PlanRemboursement } from "src/plan_remboursement/models/plan_remboursement.entity"; 
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -12,7 +13,7 @@ export class Cohorte {
     name_cohorte: string;
 
     @Column()
-    contrat_ref: string; 
+    contrat_ref: string;
 
     @Column({default: 'Ouverte'})  // Ouverte et Fermée
     statut_cohorte: string;
@@ -22,6 +23,9 @@ export class Cohorte {
 
     @OneToMany(() => PlanRemboursement, (item) => item.cohorte, {cascade: true})
     plan_remboursements: PlanRemboursement[];
+
+    @OneToMany(() => BanqueCohorte, (item) => item.cohorte, {cascade: true})
+    banque_cohortes: BanqueCohorte[];
 
     @Column()
     signature: string; // celui qui fait le document
