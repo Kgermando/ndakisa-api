@@ -19,6 +19,7 @@ import { CorbeilModule } from './corbeil/corbeil.module';
 import { SupportModuleModule } from './support-module/support-module.module';
 import { SupportModule } from './support/support.module';
 import { BanqueCohorteModule } from './banque_cohorte/banque_cohorte.module';
+import { NotifyModule } from './notify/notify.module';
 
 
 @Module({
@@ -59,6 +60,7 @@ import { BanqueCohorteModule } from './banque_cohorte/banque_cohorte.module';
     SupportModuleModule,
     SupportModule,
     BanqueCohorteModule,
+    NotifyModule,
   ],
   providers: [
     {

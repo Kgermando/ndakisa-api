@@ -14,6 +14,17 @@ export class BanqueCohorteService extends AbstractService {
     }
 
 
+    async getGuarantieBanque(id) {
+        return this.dataSource.query(`
+            SELECT "banque_cohortes"."id","cohortes"."name_cohorte", "cohortes"."statut_cohorte",
+            "banque_cohortes"."created", "banque_cohortes"."update_created",
+            "banque_cohortes"."montant_garantie"
+            FROM banque_cohortes 
+            LEFT JOIN "cohortes" ON "cohortes"."id" = "banque_cohortes"."cohorteId"
+            WHERE "banqueId"='${id}' ORDER BY "banque_cohortes"."created" ASC;
+        `);
+    }
+
     async totalGuarantieBanque(id) {
         return this.dataSource.query(`
             SELECT COALESCE(SUM(cast("banque_cohortes"."montant_garantie" as decimal(20,2))), 0) AS montant_garantie
@@ -30,12 +41,7 @@ export class BanqueCohorteService extends AbstractService {
 
 
     async getAllData(): Promise<any> {
-        return await this.repository.find({
-            relations: {
-                banque: true,
-                cohorte: true
-            }
-        });
+        return await this.repository.find();
     }
 
     async findGetOne(condition): Promise<any> {

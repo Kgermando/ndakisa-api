@@ -131,10 +131,6 @@ export class DashboardService {
     }
 
 
-
-
-
-
     async progressionRemboursementSexeHomme(start_date, end_date) { 
         return this.dataSource.query(`
         SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month

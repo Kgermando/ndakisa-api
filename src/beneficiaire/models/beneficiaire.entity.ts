@@ -1,5 +1,6 @@
 import { Banque } from "src/banque/models/banque.entity";
 import { Cohorte } from "src/cohorte/models/cohorte.entity";
+import { Notify } from "src/notify/models/notify.entity";
 import { PlanRemboursement } from "src/plan_remboursement/models/plan_remboursement.entity";
 import { Secteur } from "src/secteurs/models/secteur.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -97,6 +98,9 @@ export class Beneficiaire {
 
     @OneToMany(() => PlanRemboursement, (item) => item.beneficiaire, {cascade: true})
     plan_remboursements: PlanRemboursement[]; 
+
+    @OneToMany(() => Notify, (item) => item.beneficiaire, {cascade: true})
+    notifications: Notify[]; 
 
     
     @Column()

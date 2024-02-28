@@ -12,6 +12,13 @@ export class BanqueCohorteController {
         private banqueCohorteService: BanqueCohorteService
     ) {}
 
+    @Get('get-guarantie-banque/:id')
+    async guarantieBanque(
+        @Param('id') id: number
+    ) {
+      return this.banqueCohorteService.getGuarantieBanque(id);
+    }
+
     @Get('get-total-guarantie-banque/:id')
     async totalGuarantieBanque(
         @Param('id') id: number

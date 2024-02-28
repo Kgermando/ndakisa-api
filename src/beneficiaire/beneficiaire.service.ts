@@ -142,7 +142,8 @@ export class BeneficiaireService extends AbstractService {
             LEFT JOIN "cohortes" ON "cohortes"."id" = "beneficiaires"."cohorteId"
             LEFT JOIN "banques" ON "banques"."id" = "beneficiaires"."banqueId"
             LEFT JOIN "secteurs" ON "secteurs"."id" = "beneficiaires"."secteurActiviteId"
-            WHERE "secteurActiviteId"='${id}' AND "beneficiaires"."is_delete"='false' ORDER BY "beneficiaires"."created" ASC;
+            WHERE "secteurActiviteId"='${id}' AND "beneficiaires"."is_delete"='false' 
+            ORDER BY "beneficiaires"."created" ASC;
         `);
     }
 
