@@ -18,6 +18,20 @@ export class NotifyController {
       return this.notifyService.getCurrentDate();
     }
 
+    @Get('get-notifications/:id')
+    async getNotification(
+        @Param('id') id: number,
+    ) {
+      return this.notifyService.getNotification(id);
+    }
+
+    @Get('get-total-remboursements/:id')
+    async getTotalRemboursements(
+        @Param('id') id: number,
+    ) {
+      return this.notifyService.getTotalRemboursements(id);
+    }
+
     @Post()
     async create(
         @Body() body: NotifyCreateDto
