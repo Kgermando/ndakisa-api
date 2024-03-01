@@ -15,7 +15,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
   app.enableCors({
-    origin: isProduction ? 'https://ndakisa-024.web.app' : 'http://localhost:4200',
+    origin: isProduction ? 'https://ndakisa-fogec.up.railway.app' : 'http://localhost:4200',
     credentials: true
   });
   const PORT = process.env.PORT || 3002;
