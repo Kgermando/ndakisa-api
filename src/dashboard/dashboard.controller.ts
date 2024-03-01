@@ -105,12 +105,9 @@ export class DashboardController {
     return this.dashboardService.beneficiaireParCohorte();
   }
 
-  @Get('statut-cohorte/:start_date/:end_date')
-  async statutCohorte(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.statutCohorte(start_date, end_date);
+  @Get('statut-cohorte')
+  async statutCohorte() {
+    return this.dashboardService.statutCohorte();
   }
 
   @Get('progression-remboursements-sexe/:start_date/:end_date')
@@ -145,12 +142,9 @@ export class DashboardController {
     return this.dashboardService.progressionRemboursementSexeDate(start_date, end_date);
   }
 
-  @Get('secteurs-activites/:start_date/:end_date')
-  async secteurActivite(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.secteurActivite(start_date, end_date);
+  @Get('secteurs-activites')
+  async secteurActivite( ) {
+    return this.dashboardService.secteurActivite();
   }
 
 

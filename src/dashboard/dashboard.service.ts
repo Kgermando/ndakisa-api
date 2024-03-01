@@ -50,7 +50,7 @@ export class DashboardService {
 
     async totalGarantie(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT COALESCE(SUM(cast(montant_garantie as decimal(20,2))), 0) as montant_garantie
+            SELECT COALESCE(SUM(cast(montant_garantie as decimal(40,2))), 0) as montant_garantie
             FROM banque_cohortes WHERE created BETWEEN
             '${start_date}' ::TIMESTAMP AND
             '${end_date}' ::TIMESTAMP;
@@ -59,7 +59,7 @@ export class DashboardService {
 
     async totalCreditAccorde(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT COALESCE(SUM(cast(credit_accorde as decimal(20,2))), 0) as credit_accorde
+            SELECT COALESCE(SUM(cast(credit_accorde as decimal(40,2))), 0) as credit_accorde
             FROM beneficiaires WHERE created BETWEEN
             '${start_date}' ::TIMESTAMP AND
             '${end_date}' ::TIMESTAMP AND "is_delete"='false';
@@ -68,7 +68,7 @@ export class DashboardService {
 
     async totalARembourser(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(20,2))), 0) as montant_a_rembourser
+            SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(40,2))), 0) as montant_a_rembourser
             FROM beneficiaires WHERE created BETWEEN
             '${start_date}' ::TIMESTAMP AND
             '${end_date}' ::TIMESTAMP AND "is_delete"='false';
@@ -77,7 +77,7 @@ export class DashboardService {
 
     async totalRembourse(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) as montant_payer
+            SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) as montant_payer
             FROM plan_remboursements 
             LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
             WHERE "plan_remboursements"."created" BETWEEN
@@ -91,7 +91,7 @@ export class DashboardService {
             SELECT (
 
                 (
-                    SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(20,2))), 0)
+                    SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(40,2))), 0)
                     FROM beneficiaires WHERE created BETWEEN
                     '${start_date}' ::TIMESTAMP AND
                     '${end_date}' ::TIMESTAMP AND "is_delete"='false'
@@ -100,7 +100,7 @@ export class DashboardService {
                 -
 
                 (
-                    SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0)
+                    SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0)
                     FROM plan_remboursements 
                     LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
                     WHERE "plan_remboursements"."created" BETWEEN
@@ -113,12 +113,9 @@ export class DashboardService {
     }
 
 
-
-
-
     async progressionRemboursementParSexe(start_date, end_date) {
         return this.dataSource.query(`
-        SELECT to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as date, "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer
+        SELECT to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as date, "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer
         FROM plan_remboursements
         LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
         WHERE "plan_remboursements"."date_paiement"
@@ -133,7 +130,7 @@ export class DashboardService {
 
     async progressionRemboursementSexeHomme(start_date, end_date) { 
         return this.dataSource.query(`
-        SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
+        SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
             FROM plan_remboursements
             LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
             WHERE "beneficiaires"."sexe"='Homme' AND "plan_remboursements"."date_paiement"
@@ -146,7 +143,7 @@ export class DashboardService {
     } 
     async progressionRemboursementSexeFemme(start_date, end_date) { 
         return this.dataSource.query(`
-        SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
+        SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
             FROM plan_remboursements
             LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
             WHERE "beneficiaires"."sexe"='Femme' AND "plan_remboursements"."date_paiement"
@@ -159,7 +156,7 @@ export class DashboardService {
     }
     async progressionRemboursementSexeDate(start_date, end_date) {
         return this.dataSource.query(`
-        SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
+        SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
             FROM plan_remboursements
             LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
             WHERE "plan_remboursements"."date_paiement"
@@ -173,7 +170,7 @@ export class DashboardService {
 
     async participationParBanque(start_date, end_date) {
        return this.dataSource.query(`
-            SELECT "banques"."name_banque", COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0) AS montant_payer
+            SELECT "banques"."name_banque", COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer
                 FROM plan_remboursements
                 LEFT JOIN "banques" ON "banques"."id" = "plan_remboursements"."banqueId"
                 LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
@@ -210,7 +207,7 @@ export class DashboardService {
     async remboursementTotalEtReste(start_date, end_date) {
         return this.dataSource.query(`
         SELECT COALESCE((
-                SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(20,2))), 0)
+                SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(40,2))), 0)
                 FROM beneficiaires
                 WHERE "beneficiaires"."created"
                         BETWEEN
@@ -218,7 +215,7 @@ export class DashboardService {
                         '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
                 )) AS total_a_rembourse,
             COALESCE((
-                        SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0)
+                        SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0)
                         FROM plan_remboursements
                         LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
                         WHERE "plan_remboursements"."created"
@@ -227,7 +224,7 @@ export class DashboardService {
                         '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false' 
                     )) AS total_rembourse, 
             COALESCE((
-                        SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(20,2))), 0)
+                        SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(40,2))), 0)
                         FROM beneficiaires
                         WHERE "beneficiaires"."created"
                         BETWEEN
@@ -236,7 +233,7 @@ export class DashboardService {
                     )
                     -
                     (
-                        SELECT COALESCE(SUM(cast(montant_payer as decimal(20,2))), 0)
+                        SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0)
                         FROM plan_remboursements
                         LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
                         WHERE "plan_remboursements"."created"
@@ -265,29 +262,21 @@ export class DashboardService {
         `);
     }
 
-    async statutCohorte(start_date, end_date) {
+    async statutCohorte() {
         return this.dataSource.query(`
             SELECT COALESCE("statut_cohorte", LEFT('Pas de statut', 40)) AS statut, COUNT(*)
             FROM cohortes 
-            WHERE
-            created
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "is_delete"='false'
+            WHERE "is_delete"='false'
             GROUP BY "statut_cohorte";
         `);
     }
 
-    async secteurActivite(start_date, end_date) {
+    async secteurActivite() {
         return this.dataSource.query(`
             SELECT COALESCE("name_secteur", LEFT('Pas de secteur', 40)) AS name_secteur, COUNT(*)
             FROM beneficiaires
             LEFT JOIN "secteurs" ON "secteurs"."id" = "beneficiaires"."secteurActiviteId"
-            WHERE
-            "beneficiaires"."created"
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "is_delete"='false'
+            WHERE "is_delete"='false'
             GROUP BY "name_secteur";
         `);
     }

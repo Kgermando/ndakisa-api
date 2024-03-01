@@ -39,7 +39,7 @@ export class CohorteService extends AbstractService {
 
     getCreditAccorde(id): Promise<any[]> {
         return this.dataSource.query(`
-            SELECT COALESCE(SUM(cast("beneficiaires"."credit_accorde" as decimal(20,2))), 0) AS credit_accorde
+            SELECT COALESCE(SUM(cast("beneficiaires"."credit_accorde" as decimal(40,2))), 0) AS credit_accorde
             FROM beneficiaires WHERE "cohorteId"='${id}' AND "is_delete"='false'
         `);
     }
@@ -48,11 +48,11 @@ export class CohorteService extends AbstractService {
     async tauxProgessionCohorte(id) {
         return this.dataSource.query(`
             WITH resultat_montant_a_rembourser AS (
-                SELECT COALESCE(SUM(cast("beneficiaires"."montant_a_debourser" as decimal(20,2))), 0) AS montant_a_rembourser
+                SELECT COALESCE(SUM(cast("beneficiaires"."montant_a_debourser" as decimal(40,2))), 0) AS montant_a_rembourser
                 FROM beneficiaires WHERE "cohorteId"='${id}' AND "is_delete"='false'
             ),
             resultat_montant_payer AS (
-                SELECT COALESCE(SUM(cast("plan_remboursements"."montant_payer" as decimal(20,2))), 0) AS montant_payer
+                SELECT COALESCE(SUM(cast("plan_remboursements"."montant_payer" as decimal(40,2))), 0) AS montant_payer
                 FROM plan_remboursements WHERE "cohorteId"='${id}'
             )
         
@@ -61,7 +61,7 @@ export class CohorteService extends AbstractService {
                 (
                     CASE(montant_a_rembourser) WHEN 0 THEN 1
                     ELSE (montant_a_rembourser) END
-                ) as decimal(20,2)), 0
+                ) as decimal(40,2)), 0
             ) AS pourcentage 
 
             FROM resultat_montant_payer, resultat_montant_a_rembourser;

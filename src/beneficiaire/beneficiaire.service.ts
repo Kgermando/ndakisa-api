@@ -164,11 +164,11 @@ export class BeneficiaireService extends AbstractService {
     async tauxProgessionBeneficiaire(id) {
         return this.dataSource.query(`
             WITH resultat_montant_a_rembourser AS (
-                SELECT COALESCE(SUM(cast("beneficiaires"."montant_a_debourser" as decimal(20,2))), 0) AS montant_a_rembourser
+                SELECT COALESCE(SUM(cast("beneficiaires"."montant_a_debourser" as decimal(40,2))), 0) AS montant_a_rembourser
                 FROM beneficiaires WHERE "id"='${id}'
             ),
             resultat_montant_payer AS (
-                SELECT COALESCE(SUM(cast("plan_remboursements"."montant_payer" as decimal(20,2))), 0) AS montant_payer
+                SELECT COALESCE(SUM(cast("plan_remboursements"."montant_payer" as decimal(40,2))), 0) AS montant_payer
                 FROM plan_remboursements WHERE "beneficiaireId"='${id}'
             )
         
@@ -177,7 +177,7 @@ export class BeneficiaireService extends AbstractService {
                 (
                     CASE(montant_a_rembourser) WHEN 0 THEN 1
                     ELSE (montant_a_rembourser) END
-                ) as decimal(20,2)), 0
+                ) as decimal(40,2)), 0
             ) AS pourcentage 
 
             FROM resultat_montant_payer, resultat_montant_a_rembourser;

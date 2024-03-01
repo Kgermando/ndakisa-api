@@ -27,14 +27,14 @@ export class BanqueCohorteService extends AbstractService {
 
     async totalGuarantieBanque(id) {
         return this.dataSource.query(`
-            SELECT COALESCE(SUM(cast("banque_cohortes"."montant_garantie" as decimal(20,2))), 0) AS montant_garantie
+            SELECT COALESCE(SUM(cast("banque_cohortes"."montant_garantie" as decimal(40,2))), 0) AS montant_garantie
             FROM banque_cohortes WHERE "banqueId"='${id}'
         `);
     }
 
     async totalGuarantieCohorte(id) {
         return this.dataSource.query(`
-            SELECT COALESCE(SUM(cast("banque_cohortes"."montant_garantie" as decimal(20,2))), 0) AS montant_garantie
+            SELECT COALESCE(SUM(cast("banque_cohortes"."montant_garantie" as decimal(40,2))), 0) AS montant_garantie
             FROM banque_cohortes WHERE "cohorteId"='${id}'
         `);
     }

@@ -32,6 +32,13 @@ export class NotifyController {
       return this.notifyService.getTotalRemboursements(id);
     }
 
+    @Get('get-total-insolvables/:month')
+    async getInsolvable(
+        @Param('month') month: number,
+    ) {
+      return this.notifyService.getInsolvable(month);
+    }
+
     @Post()
     async create(
         @Body() body: NotifyCreateDto

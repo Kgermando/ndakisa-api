@@ -7,6 +7,9 @@ import { Secteur } from "src/secteurs/models/secteur.entity";
 export class PlanRemboursementCreateDto { 
  
     @IsNotEmpty()
+    id_db_banque: number;
+
+    @IsNotEmpty()
     cohorte: Cohorte;
 
     @IsNotEmpty()

@@ -10,6 +10,9 @@ export class PlanRemboursement {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Column({nullable: true})
+    id_db_banque: number;
+
     @ManyToOne(() => Cohorte, (item)=> item.plan_remboursements, { eager: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     cohorte: Cohorte;
 
