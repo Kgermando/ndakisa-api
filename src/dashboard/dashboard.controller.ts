@@ -116,38 +116,27 @@ export class DashboardController {
     @Param('end_date') end_date: string
   ) {
     return this.dashboardService.progressionRemboursementParSexe(start_date, end_date);
-  }
-
-  @Get('progression-cohorte-homme/:start_date/:end_date')
-  async progressionRemboursementSexeHomme(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.progressionRemboursementSexeHomme(start_date, end_date);
-  }
-
-  @Get('progression-cohorte-femme/:start_date/:end_date')
-  async progressionRemboursementSexeFemme(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.progressionRemboursementSexeFemme(start_date, end_date);
-  }
-
-  @Get('progression-cohorte-date/:start_date/:end_date')
-  async progressionRemboursementSexeDate(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.progressionRemboursementSexeDate(start_date, end_date);
-  }
+  } 
 
   @Get('secteurs-activites')
   async secteurActivite( ) {
     return this.dashboardService.secteurActivite();
+  } 
+
+  @Get('remboursements-interrompus/:start_date/:end_date')
+  async remboursementsInterrompus(
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string
+  ) {
+    return this.dashboardService.remboursementsInterrompus(start_date, end_date);
   }
 
-
-
+  @Get('remboursements-interrompu-pourcent/:start_date/:end_date')
+  async remboursementsInterrompuPourcent(
+    @Param('start_date') start_date: string,
+    @Param('end_date') end_date: string
+  ) {
+    return this.dashboardService.remboursementsInterrompuPourcent(start_date, end_date);
+  }
  
 }

@@ -1,32 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { AbstractService } from 'src/common/abstract.service';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { Notify } from './models/notify.entity';
+import { PaginatedResult } from 'src/common/paginated_result.interface';
+import { PaginationDto } from 'src/common/paginate.dto';
 
 @Injectable()
 export class NotifyService extends AbstractService {
     constructor(
         @InjectRepository(Notify) private readonly  dataRepository: Repository<Notify>,
           @InjectDataSource() private dataSource: DataSource,
+          @Inject('REQUEST') private readonly queryRunner: QueryRunner,
     ) {
         super(dataRepository); 
-    }
-
-
-    getCurrentDate1(): Promise<any[]> {
-        return this.dataSource.query(`
-            SELECT date_de_rembousement, name_beneficiaire, date_paiement, "beneficiaires"."id"
-            FROM plan_remboursements
-            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-            WHERE  
-            (EXTRACT(DAY FROM CURRENT_DATE ::TIMESTAMP) - EXTRACT(DAY FROM "date_de_rembousement" ::TIMESTAMP)) <= 7 AND
-            EXTRACT(MONTH FROM CURRENT_DATE ::TIMESTAMP) = EXTRACT(MONTH FROM "date_de_rembousement" ::TIMESTAMP) AND
-            EXTRACT(YEAR FROM CURRENT_DATE ::TIMESTAMP) = EXTRACT(YEAR FROM "date_de_rembousement" ::TIMESTAMP) AND 
-            "date_paiement" ::TIMESTAMP IS NULL AND
-            statut='En cours' AND is_delete=false
-            ORDER BY date_de_rembousement DESC; 
-        `);
     }
 
     getCurrentDate(): Promise<any[]> {
@@ -54,15 +41,43 @@ export class NotifyService extends AbstractService {
         `);
     }
 
-    getTotalRemboursements(id): Promise<any[]> {
+    getTotalRemboursements(id, page: number = 1): Promise<any[]> {
+
         return this.dataSource.query(`
             SELECT COUNT(date_de_rembousement) AS totalarembourser, COUNT(date_paiement) AS totalpayer
             FROM plan_remboursements
             WHERE "plan_remboursements"."beneficiaireId"='${id}';
-        `); 
+        `);  
     }
 
-    // Ceux qui ont moins ou egal a (month) mois
+    async paginatee(id, pagination: PaginationDto): Promise<any> {
+        const { page, limit } = pagination;
+      
+        // Calculate offset based on page and limit
+        const offset = (page - 1) * limit;
+      
+        // 1. Get total count (separate query)
+        const countQuery = `SELECT COUNT(*) AS total FROM plan_remboursements`;
+        const total = await this.queryRunner.query(countQuery);
+      
+        // 2. Get paginated data
+        const dataQuery = `
+            SELECT COUNT(date_de_rembousement) AS totalarembourser, 
+                COUNT(date_paiement) AS totalpayer
+            FROM plan_remboursements
+            WHERE "plan_remboursements"."beneficiaireId"='${id}'
+            LIMIT ${limit}
+            OFFSET ${offset};
+        `;
+        const data = await this.queryRunner.query(dataQuery);
+      
+        return {
+          data,
+          total: total[0].total, // assuming the count query returns an array with total count
+        };
+      }
+      
+
     getInsolvable(month): Promise<any[]> {
         return this.dataSource.query(`
             SELECT "beneficiaires"."id", identifiant, name_beneficiaire, montant_a_debourser, statut

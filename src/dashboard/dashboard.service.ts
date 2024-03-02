@@ -131,46 +131,6 @@ export class DashboardService {
     }
 
 
-    async progressionRemboursementSexeHomme(start_date, end_date) { 
-        return this.dataSource.query(`
-            SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
-            FROM plan_remboursements
-            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-            WHERE "beneficiaires"."sexe"='Homme' AND "plan_remboursements"."date_paiement"
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
-            GROUP BY "beneficiaires"."sexe", "plan_remboursements"."date_paiement"
-            ORDER BY "plan_remboursements"."date_paiement";
-        `);
-    } 
-    async progressionRemboursementSexeFemme(start_date, end_date) { 
-        return this.dataSource.query(`
-        SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
-            FROM plan_remboursements
-            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-            WHERE "beneficiaires"."sexe"='Femme' AND "plan_remboursements"."date_paiement"
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
-            GROUP BY "beneficiaires"."sexe", "plan_remboursements"."date_paiement"
-            ORDER BY "plan_remboursements"."date_paiement"
-        `);
-    }
-    async progressionRemboursementSexeDate(start_date, end_date) {
-        return this.dataSource.query(`
-        SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
-            FROM plan_remboursements
-            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-            WHERE "plan_remboursements"."date_paiement"
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
-            GROUP BY "plan_remboursements"."date_paiement"
-            ORDER BY "plan_remboursements"."date_paiement"
-        `);
-    }
-
     async participationParBanque(start_date, end_date) {
        return this.dataSource.query(`
             SELECT "banques"."name_banque", COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer
@@ -281,6 +241,41 @@ export class DashboardService {
             LEFT JOIN "secteurs" ON "secteurs"."id" = "beneficiaires"."secteurActiviteId"
             WHERE "is_delete"='false'
             GROUP BY "name_secteur";
+        `);
+    }
+
+    async remboursementsInterrompus(start_date, end_date) {
+        return this.dataSource.query(`
+            SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) as montant_payer
+            FROM plan_remboursements 
+            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+            WHERE "beneficiaires"."statut"='Interrompu' AND "plan_remboursements"."created" BETWEEN
+            '${start_date}' ::TIMESTAMP AND
+            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false';
+        `);
+    }
+
+    async remboursementsInterrompuPourcent(start_date, end_date) {
+        return this.dataSource.query(`
+            SELECT COALESCE(cast(
+                (
+                    SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) as montant_payer
+                    FROM plan_remboursements 
+                    LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+                    WHERE "beneficiaires"."statut"='Interrompu' AND "plan_remboursements"."created" BETWEEN
+                    '${start_date}' ::TIMESTAMP AND
+                    '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
+                ) /
+                (
+                    SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) as montant_payer
+                    FROM plan_remboursements 
+                    LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+                    WHERE "plan_remboursements"."created" BETWEEN
+                    '${start_date}' ::TIMESTAMP AND
+                    '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
+                )
+                * 100
+            as decimal(40,2)), 0) AS pourcent; 
         `);
     }
  
