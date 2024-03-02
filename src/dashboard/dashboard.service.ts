@@ -244,9 +244,10 @@ export class DashboardService {
         `);
     }
 
+    // Reste a rembourser pour les beneficieres interrompus
     async remboursementsInterrompus(start_date, end_date) {
         return this.dataSource.query(`
-            SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) as montant_payer
+            SELECT COALESCE(SUM(cast(montant_a_debourser:: FLOAT - montant_payer:: FLOAT as decimal(40,2))), 0) as montant_payer
             FROM plan_remboursements 
             LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
             WHERE "beneficiaires"."statut"='Interrompu' AND "plan_remboursements"."created" BETWEEN
@@ -259,7 +260,7 @@ export class DashboardService {
         return this.dataSource.query(`
             SELECT COALESCE(cast(
                 (
-                    SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) as montant_payer
+                    SELECT COALESCE(SUM(cast(montant_a_debourser:: FLOAT - montant_payer:: FLOAT  as decimal(40,2))), 0) 
                     FROM plan_remboursements 
                     LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
                     WHERE "beneficiaires"."statut"='Interrompu' AND "plan_remboursements"."created" BETWEEN
@@ -267,7 +268,7 @@ export class DashboardService {
                     '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
                 ) /
                 (
-                    SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) as montant_payer
+                    SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) 
                     FROM plan_remboursements 
                     LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
                     WHERE "plan_remboursements"."created" BETWEEN
