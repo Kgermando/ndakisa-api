@@ -115,22 +115,25 @@ export class DashboardService {
 
     async progressionRemboursementParSexe(start_date, end_date) {
         return this.dataSource.query(`
-        SELECT to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as date, "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer
-        FROM plan_remboursements
-        LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-        WHERE "plan_remboursements"."date_paiement"
-        BETWEEN
-        '${start_date}' ::TIMESTAMP AND
-        '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
-        GROUP BY date, sexe
-        ORDER BY date ASC;
+            SELECT
+            to_char(date_trunc('month', "plan_remboursements"."date_paiement"), 'YYYY-MM') AS mois,
+            "beneficiaires"."sexe",
+            SUM("plan_remboursements"."montant_payer":: FLOAT) AS montant_payer
+            FROM plan_remboursements
+            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+            WHERE "plan_remboursements"."montant_payer":: FLOAT > '0' AND "plan_remboursements"."date_paiement"
+            BETWEEN
+            '${start_date}' ::TIMESTAMP AND
+            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
+            GROUP BY mois, "beneficiaires"."sexe"
+            ORDER BY mois;
         `);
     }
 
 
     async progressionRemboursementSexeHomme(start_date, end_date) { 
         return this.dataSource.query(`
-        SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
+            SELECT "beneficiaires"."sexe", COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0) AS montant_payer, to_char("plan_remboursements"."date_paiement", 'YYYY-MM-DD') as month
             FROM plan_remboursements
             LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
             WHERE "beneficiaires"."sexe"='Homme' AND "plan_remboursements"."date_paiement"
