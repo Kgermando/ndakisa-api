@@ -183,4 +183,38 @@ export class BeneficiaireService extends AbstractService {
             FROM resultat_montant_payer, resultat_montant_a_rembourser;
         `);
     }
+
+    async resteAPayer(id) {
+        return this.dataSource.query(`
+            SELECT (
+
+
+                (
+                    SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0)
+                    FROM plan_remboursements 
+                    LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+                    WHERE "beneficiaireId"='${id}'
+                )
+
+                -
+
+                (
+                    (
+                        SELECT COALESCE(SUM(cast(interet as decimal(40,2))), 0)
+                        FROM plan_remboursements 
+                        LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+                        WHERE "beneficiaireId"='${id}' AND date_de_rembousement < CURRENT_DATE
+                    )
+                    +
+                    (
+                        SELECT COALESCE(SUM(cast(capital as decimal(40,2))), 0)
+                        FROM plan_remboursements 
+                        LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+                        WHERE "beneficiaireId"='${id}' AND date_de_rembousement < CURRENT_DATE
+                    )
+                )
+        
+            ) AS reste_a_payer; 
+        `);
+    }
 }

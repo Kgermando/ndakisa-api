@@ -40,6 +40,13 @@ export class BeneficiaireController {
         return this.beneficiaireService.tauxProgessionBeneficiaire(id);
     }
 
+    @Get('reste-a-payer/:id')
+    async resteAPayer(
+        @Param('id') id: number
+    ) {
+        return this.beneficiaireService.resteAPayer(id);
+    }
+
     @Get('get-all')
     async getAll() {
       return this.beneficiaireService.findGetAll();

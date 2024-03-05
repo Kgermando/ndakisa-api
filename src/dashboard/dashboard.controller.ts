@@ -34,12 +34,9 @@ export class DashboardController {
   }
 
 
-  @Get('total-garantie/:start_date/:end_date')
-  async totalGarantie(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.totalGarantie(start_date, end_date);
+  @Get('total-garantie')
+  async totalGarantie( ) {
+    return this.dashboardService.totalGarantie();
   }
 
   @Get('credit-accorde/:start_date/:end_date')

@@ -84,11 +84,11 @@ export class NotifyService extends AbstractService {
             FROM plan_remboursements
             LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
             WHERE
-                date_de_rembousement BETWEEN CURRENT_DATE - INTERVAL '${month} months' AND CURRENT_DATE
+                date_de_rembousement >= CURRENT_DATE - INTERVAL '${month} months' 
             AND
                 montant_payer = '0' AND
                 statut='En cours' AND is_delete=false
-            GROUP BY "beneficiaires"."id", name_beneficiaire; 
+            GROUP BY "beneficiaires"."id", name_beneficiaire;
         `);
     }
 }

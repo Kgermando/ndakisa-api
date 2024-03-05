@@ -20,7 +20,7 @@ export class ImageController {
   uploadFile(@UploadedFile() file) {
       console.log(file);
       return {
-        url: `http://localhost:3000/api/uploads/${file.filename}`
+        url: `https://parsimonious-temper-production.up.railway.app/api/uploads/${file.filename}`
       }
   }
 
