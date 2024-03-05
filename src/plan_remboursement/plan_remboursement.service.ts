@@ -27,7 +27,7 @@ export class PlanRemboursementService extends AbstractService {
             "plan_remboursements"."montant_payer",
             "plan_remboursements"."date_paiement",
             "plan_remboursements"."observation",
-            "plan_remboursements"."file_scan",
+            "plan_remboursements"."numero_transaction",
             "plan_remboursements"."signature",
             "plan_remboursements"."created",
             "plan_remboursements"."update_created",
