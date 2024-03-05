@@ -20,6 +20,7 @@ export interface PlanRemboursementExcel {
     montant_payer: string;
     date_paiement: string;
     observation: string;
+    numero_transaction: string;
     signature: string;
     created: Date;
     update_created: Date

@@ -39,7 +39,7 @@ export class PlanRemboursementCreateDto {
 
     date_paiement: Date; 
 
-    file_scan: string;
+    numero_transaction: string;
 
     @IsNotEmpty()
     signature: string;

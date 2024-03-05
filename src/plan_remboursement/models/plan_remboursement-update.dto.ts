@@ -16,7 +16,7 @@ export class PlanRemboursementUpdateDto {
     montant_payer?: string; // Un montant à ajouter chaque mois
     Observation?: string;
     date_paiement?: Date; 
-    file_scan?: string;
+    numero_transaction?: string;
     signature?: string;
     created?: Date;    
     update_created?: Date;

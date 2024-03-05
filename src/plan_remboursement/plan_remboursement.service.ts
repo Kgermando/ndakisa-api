@@ -173,6 +173,7 @@ export class PlanRemboursementService extends AbstractService {
             { header: 'Montant payer', key: 'montant_payer', width: 20.5 },
             { header: 'Date paiement', key: 'date_paiement', width: 20.5 },
             { header: 'Observation', key: 'observation', width: 20.5 },
+            { header: 'Numero transaction', key: 'Numero_transaction', width: 20.5 },
             { header: 'Signature', key: 'signature', width: 20.5 },
             { header: 'Date de création', key: 'created', width: 20.5 },
             { header: 'Mise à jour', key: 'update_created', width: 20.5 },

@@ -50,7 +50,7 @@ export class PlanRemboursement {
     observation: string;
 
     @Column({nullable: true})
-    file_scan: string;
+    numero_transaction: string;
 
     @Column()
     signature: string; // Celui qui fait le document
