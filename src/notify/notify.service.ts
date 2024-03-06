@@ -76,9 +76,28 @@ export class NotifyService extends AbstractService {
           total: total[0].total, // assuming the count query returns an array with total count
         };
       }
+
+
+      getInsolvable(month): Promise<any[]> {
+        return this.dataSource.query(`
+            SELECT 
+                "beneficiaires"."id", 
+                "beneficiaires"."identifiant", 
+                "beneficiaires"."name_beneficiaire", 
+                "beneficiaires"."montant_a_debourser", 
+                "beneficiaires"."statut"
+            FROM plan_remboursements 
+            INNER JOIN beneficiaires ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+            WHERE date_de_rembousement < CURRENT_DATE - INTERVAL '${month} months'
+                AND montant_payer ::FLOAT = '0' AND
+                statut='En cours' AND is_delete=false
+            GROUP BY "beneficiaires"."id" 
+            ORDER BY "beneficiaires"."montant_a_debourser" DESC; 
+        `);
+    }
       
 
-    getInsolvable(month): Promise<any[]> {
+    getInsolvable1(month): Promise<any[]> {
         return this.dataSource.query(`
             SELECT "beneficiaires"."id", identifiant, name_beneficiaire, montant_a_debourser, statut
             FROM plan_remboursements
@@ -89,6 +108,41 @@ export class NotifyService extends AbstractService {
                 montant_payer = '0' AND
                 statut='En cours' AND is_delete=false
             GROUP BY "beneficiaires"."id", name_beneficiaire;
+
+
+            SELECT 
+                "beneficiaires"."id", 
+                "beneficiaires"."identifiant", 
+                "beneficiaires"."name_beneficiaire", 
+                "beneficiaires"."montant_a_debourser", 
+                "beneficiaires"."statut"
+            FROM plan_remboursements 
+            INNER JOIN beneficiaires ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+            WHERE date_de_rembousement < CURRENT_DATE - INTERVAL '12 months'
+            AND montant_payer ::FLOAT = '0'
+            GROUP BY "beneficiaires"."id" 
+            ORDER BY "beneficiaires"."montant_a_debourser" DESC;
+            
+
+
+
+            SELECT
+            client.nom,
+            client.prenom,
+            client.adresse,
+            client.telephone,
+            client.email,
+            SUM(facture.montant) AS montant_total,
+            SUM(facture.montant_paye) AS montant_paye,
+            (SUM(facture.montant) - SUM(facture.montant_paye)) AS montant_impaye,
+            facture.date_echeance
+
+            FROM client
+            INNER JOIN facture ON client.id = facture.client_id
+            WHERE facture.date_echeance < CURRENT_DATE - INTERVAL '6 months'
+            AND (SUM(facture.montant) - SUM(facture.montant_paye)) > 0
+            GROUP BY client.id
+            ORDER BY montant_impaye DESC;
         `);
     }
 }
