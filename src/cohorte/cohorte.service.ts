@@ -40,7 +40,7 @@ export class CohorteService extends AbstractService {
     getCreditAccorde(id): Promise<any[]> {
         return this.dataSource.query(`
             SELECT COALESCE(SUM(cast("beneficiaires"."credit_accorde" as decimal(40,2))), 0) AS credit_accorde
-            FROM beneficiaires WHERE "cohorteId"='${id}' AND "is_delete"='false'
+            FROM beneficiaires WHERE "cohorteId"='${id}' AND "beneficiaires"."is_delete"='false'
         `);
     }
 
@@ -114,7 +114,7 @@ export class CohorteService extends AbstractService {
             LEFT JOIN "banques" ON "banques"."id" = "beneficiaires"."banqueId"
             LEFT JOIN "secteurs" ON "secteurs"."id" = "beneficiaires"."secteurActiviteId"
             WHERE "beneficiaires"."created">='${start_date}' AND 
-            "beneficiaires"."created"<='${end_date}' AND "is_delete"='false';
+            "beneficiaires"."created"<='${end_date}' AND "beneficiaires"."is_delete"='false';
         `);
 
         if(!data) {
