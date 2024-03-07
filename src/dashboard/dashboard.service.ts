@@ -110,23 +110,102 @@ export class DashboardService {
         `);
     }
 
-
     async progressionRemboursementParSexe(start_date, end_date) {
         return this.dataSource.query(`
             SELECT
-            to_char(date_trunc('month', "plan_remboursements"."date_paiement"), 'YYYY-MM') AS mois,
-            "beneficiaires"."sexe",
-            SUM("plan_remboursements"."montant_payer":: FLOAT) AS montant_payer
-            FROM plan_remboursements
-            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-            WHERE "plan_remboursements"."montant_payer":: FLOAT > '0' AND "plan_remboursements"."date_paiement"
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
-            GROUP BY mois, "beneficiaires"."sexe"
-            ORDER BY mois;
+                to_char(date_paiement, 'YYYY-MM') AS mois_annee,
+                SUM(CASE WHEN "beneficiaires"."sexe"  = 'Homme' THEN "plan_remboursements"."montant_payer":: FLOAT ELSE 0 END) AS hommes,
+            SUM(CASE WHEN "beneficiaires"."sexe"  = 'Femme' THEN "plan_remboursements"."montant_payer":: FLOAT ELSE 0 END) AS femmes
+            FROM
+                plan_remboursements
+            JOIN
+                "beneficiaires" ON  "plan_remboursements"."beneficiaireId" = "beneficiaires"."id" 
+            WHERE
+                date_paiement IS NOT NULL
+                AND date_paiement BETWEEN '${start_date}'::TIMESTAMP AND '${end_date}'::TIMESTAMP
+                AND is_delete = 'false'
+            GROUP BY
+                mois_annee
+            ORDER BY
+                mois_annee;
         `);
     }
+
+    // async progressionRemboursementParSexe(start_date, end_date) {
+    //     return this.dataSource.query(`
+    //         SELECT
+    //             to_char(date_trunc('month', "plan_remboursements"."date_paiement"), 'YYYY-MM') AS mois,
+    //             SUM(CASE WHEN "beneficiaires"."sexe"  = 'Homme' THEN "plan_remboursements"."montant_payer":: FLOAT ELSE 0 END) AS hommes,
+    //             SUM(CASE WHEN "beneficiaires"."sexe"  = 'Femme' THEN "plan_remboursements"."montant_payer":: FLOAT ELSE 0 END) AS femmes
+    //         FROM plan_remboursements
+    //         JOIN
+    //             "beneficiaires" ON  "plan_remboursements"."beneficiaireId" = "beneficiaires"."id" 
+    //         WHERE "plan_remboursements"."date_paiement" IS NOT NULL  
+    //             AND "plan_remboursements"."date_paiement"
+    //             BETWEEN '${start_date}' ::TIMESTAMP AND '${end_date}' ::TIMESTAMP 
+    //             AND "beneficiaires"."is_delete"='false'  
+    //         GROUP BY 
+    //                   "plan_remboursements"."date_paiement"
+    //         ORDER BY
+    //                   "plan_remboursements"."date_paiement";
+      
+    //     `);
+    // }
+
+
+    // async progressionRemboursementParSexe(start_date, end_date) {
+    //     return this.dataSource.query(`
+    //         SELECT
+    //             "beneficiaires"."sexe" AS sexe,
+    //             to_char(date_trunc('month', "plan_remboursements"."date_paiement"), 'YYYY-MM') AS mois,
+    //             SUM("plan_remboursements"."montant_payer":: FLOAT) AS montant_payer
+    //         FROM
+    //             plan_remboursements
+    //         JOIN
+    //             "beneficiaires" ON  "plan_remboursements"."beneficiaireId" = "beneficiaires"."id" 
+    //         WHERE "plan_remboursements"."date_paiement" IS NOT NULL  
+    //             AND "plan_remboursements"."date_paiement"
+    //             BETWEEN '${start_date}' ::TIMESTAMP AND '${end_date}' ::TIMESTAMP 
+    //             AND "beneficiaires"."is_delete"='false'  
+    //         GROUP BY
+    //             "beneficiaires"."sexe",
+    //             "plan_remboursements"."date_paiement"
+    //         ORDER BY
+    //             "plan_remboursements"."date_paiement";
+    //     `);
+    // }
+
+    // async progressionRemboursementParSexe1(start_date, end_date) {
+    //     return this.dataSource.query(`
+    //         SELECT
+    //             "beneficiaires"."sexe",
+    //             to_char(date_trunc('month', "plan_remboursements"."date_paiement"), 'YYYY-MM') AS mois,
+    //             SUM("plan_remboursements"."montant_payer":: FLOAT) AS montant_payer
+    //         FROM
+    //             plan_remboursements
+    //         JOIN
+    //             "beneficiaires" ON  "plan_remboursements"."beneficiaireId" = "beneficiaires"."id" 
+    //         WHERE "plan_remboursements"."date_paiement" IS NOT NULL
+    //         GROUP BY
+    //             "beneficiaires"."sexe",
+    //             "plan_remboursements"."date_paiement"
+    //         ORDER BY
+    //             "plan_remboursements"."date_paiement";
+
+    //         SELECT
+    //         to_char(date_trunc('month', "plan_remboursements"."date_paiement"), 'YYYY-MM') AS mois,
+    //         "beneficiaires"."sexe",
+    //         SUM("plan_remboursements"."montant_payer":: FLOAT) AS montant_payer
+    //         FROM plan_remboursements
+    //         LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
+    //         WHERE "plan_remboursements"."montant_payer":: FLOAT > '0' AND "plan_remboursements"."date_paiement"
+    //         BETWEEN
+    //         '${start_date}' ::TIMESTAMP AND
+    //         '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'  
+    //         GROUP BY mois, "beneficiaires"."sexe"
+    //         ORDER BY mois;
+    //     `);
+    // }
 
 
     async participationParBanque(start_date, end_date) {
@@ -179,65 +258,6 @@ export class DashboardService {
                 AND "beneficiaires"."is_delete"='false' 
             GROUP BY month
             ORDER BY month ASC;  
-        `);
-    }
-
-    async remboursementTotalEtReste1(start_date, end_date) {
-        return this.dataSource.query(`
-        SELECT
-            to_char(date_trunc('month', "plan_remboursements"."date_de_rembousement"), 'YYYY-MM') AS month,
-            COALESCE(SUM(cast("beneficiaires"."montant_a_debourser" as decimal(40,2))), 0) AS montant_a_rembourser,
-            COALESCE(SUM(cast("plan_remboursements"."montant_payer" as decimal(40,2))), 0) AS montant_rembourse,
-            COALESCE(SUM(cast("beneficiaires"."montant_a_debourser" as decimal(40,2))) - SUM(cast( "plan_remboursements"."montant_payer" as decimal(40,2))), 0) AS reste_a_rembourser
-        FROM plan_remboursements
-        INNER JOIN beneficiaires ON "plan_remboursements"."beneficiaireId" = "beneficiaires"."id"
-        GROUP BY month
-        ORDER BY month ASC; 
-        
-        SELECT COALESCE((
-                SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(40,2))), 0)
-                FROM beneficiaires
-                WHERE "beneficiaires"."date_valeur"
-                        BETWEEN
-                        '${start_date}' ::TIMESTAMP AND
-                        '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
-                )) AS total_a_rembourse,
-            COALESCE((
-                        SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0)
-                        FROM plan_remboursements
-                        LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-                        WHERE "plan_remboursements"."date_paiement"
-                        BETWEEN
-                        '${start_date}' ::TIMESTAMP AND
-                        '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false' 
-                    )) AS total_rembourse, 
-            COALESCE((
-                        SELECT COALESCE(SUM(cast(montant_a_debourser as decimal(40,2))), 0)
-                        FROM beneficiaires
-                        WHERE "beneficiaires"."date_valeur"
-                        BETWEEN
-                        '${start_date}' ::TIMESTAMP AND
-                        '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
-                    )
-                    -
-                    (
-                        SELECT COALESCE(SUM(cast(montant_payer as decimal(40,2))), 0)
-                        FROM plan_remboursements
-                        LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-                        WHERE "plan_remboursements"."date_paiement"
-                        BETWEEN
-                        '${start_date}' ::TIMESTAMP AND
-                        '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
-                    ), 0) AS reste_a_rembourse,  
-      
-            to_char(date_trunc('month', "plan_remboursements"."date_paiement"), 'YYYY-MM') AS month
-            FROM plan_remboursements 
-            LEFT JOIN "beneficiaires" ON "beneficiaires"."id" = "plan_remboursements"."beneficiaireId"
-            WHERE "plan_remboursements"."date_paiement"
-            BETWEEN
-            '${start_date}' ::TIMESTAMP AND
-            '${end_date}' ::TIMESTAMP AND "beneficiaires"."is_delete"='false'
-            GROUP BY month; 
         `);
     }
 
