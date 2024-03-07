@@ -113,27 +113,21 @@ export class DashboardController {
     @Param('end_date') end_date: string
   ) {
     return this.dashboardService.progressionRemboursementParSexe(start_date, end_date);
-  } 
+  }
 
   @Get('secteurs-activites')
   async secteurActivite( ) {
     return this.dashboardService.secteurActivite();
   } 
 
-  @Get('remboursements-interrompus/:start_date/:end_date')
-  async remboursementsInterrompus(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.remboursementsInterrompus(start_date, end_date);
+  @Get('remboursements-interrompus')
+  async remboursementsInterrompus() {
+    return this.dashboardService.remboursementsInterrompus();
   }
 
-  @Get('remboursements-interrompu-pourcent/:start_date/:end_date')
-  async remboursementsInterrompuPourcent(
-    @Param('start_date') start_date: string,
-    @Param('end_date') end_date: string
-  ) {
-    return this.dashboardService.remboursementsInterrompuPourcent(start_date, end_date);
+  @Get('remboursements-interrompu-pourcent')
+  async remboursementsInterrompuPourcent() {
+    return this.dashboardService.remboursementsInterrompuPourcent();
   }
  
 }
