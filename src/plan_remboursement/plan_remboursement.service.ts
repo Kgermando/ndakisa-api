@@ -92,6 +92,10 @@ export class PlanRemboursementService extends AbstractService {
     }
 
 
+    async updateRemboursenent(id_db_banque: number, data): Promise<any> {
+        return this.repository.update(id_db_banque, data);
+    }
+
     async deleteAll(id: number) {
         return this.dataSource.query(`
             DELETE FROM "plan_remboursements"

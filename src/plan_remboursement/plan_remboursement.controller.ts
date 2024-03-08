@@ -77,6 +77,16 @@ export class PlanRemboursementController {
         return this.planRemboursementService.findGetOne({id});
     }
 
+    @Put('remboursements/:id_db_banque')
+    async updateRemboursenent(
+        @Param('id_db_banque') id_db_banque: number,
+        @Body() body: PlanRemboursementUpdateDto
+    ) {
+        const update_created = new Date();
+        await this.planRemboursementService.update(id_db_banque, {...body, update_created}); 
+        return this.planRemboursementService.findOne({where: {id_db_banque}});
+    }
+
     @Put(':id')
     async update(
         @Param('id') id: number,
