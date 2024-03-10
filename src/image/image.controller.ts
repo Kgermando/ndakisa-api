@@ -19,8 +19,10 @@ export class ImageController {
   }))
   uploadFile(@UploadedFile() file) {
       console.log(file);
+      const isProduction = process.env.NODE_ENV === "production";
+      let url = isProduction ? 'https://parsimonious-temper-production.up.railway.app' : 'http://localhost:3002';
       return {
-        url: `https://parsimonious-temper-production.up.railway.app/api/uploads/${file.filename}`
+        url: `${url}/api/image/uploads/${file.filename}`
       }
   }
 
@@ -29,6 +31,6 @@ export class ImageController {
       @Param('path') path,
       @Res() res: Response
   ) {
-      res.sendFile(path, {root: 'uploads'});
+    res.sendFile(path, {root: 'uploads'});
   }
 }
