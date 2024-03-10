@@ -20,7 +20,7 @@ export abstract class AbstractService {
         const [data, total] = await this.repository.findAndCount({
             take,
             skip: (page - 1) * take,
-            order: {'date_operation': 'DESC'}
+            order: {'update_created': 'DESC'}
         });
         return {
             data: data,

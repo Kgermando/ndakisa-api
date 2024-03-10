@@ -20,6 +20,7 @@ import { SupportModuleModule } from './support-module/support-module.module';
 import { SupportModule } from './support/support.module';
 import { BanqueCohorteModule } from './banque_cohorte/banque_cohorte.module';
 import { NotifyModule } from './notify/notify.module';
+import { ArchiveModule } from './archive/archive.module';
 
 
 @Module({
@@ -61,6 +62,7 @@ import { NotifyModule } from './notify/notify.module';
     SupportModule,
     BanqueCohorteModule,
     NotifyModule,
+    ArchiveModule,
   ],
   providers: [
     {
